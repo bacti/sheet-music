@@ -1,0 +1,7 @@
+node_modules
+dist
+release
+project/build
+.ninja_log
+npm-debug.log
+package-lock.json
