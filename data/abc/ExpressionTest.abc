@@ -1,0 +1,17 @@
+X:1
+T:Expression Test
+%%measurenb 0
+%%scale 0.83
+%%pagewidth 21.01cm
+%%leftmargin 1.00cm
+%%rightmargin 1.00cm
+L:1/4
+M:4/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5 
+%%MIDI program 0
+%%MIDI control 10 63.5
+V:1
+!8va(![Q:1/4=80] !ppp! c d!p! e f |!fff! c d!f! e!8va)! f |!8vb(! C, D, E,!8vb)! F, | %3
+!>(! c B A!>)! G |1!<(! c B A!<)! G |] %5

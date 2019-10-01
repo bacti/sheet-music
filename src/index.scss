@@ -1,0 +1,21 @@
+#notation {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    opacity: 1;
+}
+
+.scrollable {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    &::-webkit-scrollbar {
+        height: 12px;
+        border-radius: 6px;
+        background-color: #E91E63;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background-color: #FFFFFF;
+    }
+}
