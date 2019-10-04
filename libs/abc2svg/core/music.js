@@ -4736,7 +4736,7 @@ function output_music() {
             line_height = offset
             symbols = symbols.concat(symbol)
             symbols = symbols.concat(draw_systems(indent))
-            draw_all_sym();
+            symbols = symbols.concat(draw_all_sym())
             delayed_update();
             vskip(line_height)
             if (indent != 0) {

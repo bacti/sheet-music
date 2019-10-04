@@ -152,9 +152,7 @@ const asyncFunction = _ => Promise.all
 ([
     Utils.LoadFont(ALIAS_FONT_MUZIK, 'project/assets/font/abc2svg.ttf'),
     Utils.LoadFont(ALIAS_FONT_TEXT, 'project/assets/font/emilys-candy-regular.ttf'),
+    // Utils.LoadXML(ALIAS_SHEET, 'data/musicxml/Hello World.musicxml'),
     Utils.LoadText(ALIAS_SHEET, 'project/assets/resources/Game Of Thrones.abc'),
-    // Utils.LoadText(ALIAS_SHEET, 'data/abc/Lover`s Concerto.abc'),
-    // Utils.LoadText(ALIAS_SHEET, 'data/abc/HelloWorld.abc'),
-    // Utils.LoadXML(ALIAS_SHEET, 'data/musicxml/MuzioClementi_SonatinaOpus36No1_Part1.musicxml'),
 ])
 export default promise(asyncFunction)(XmlPlay)

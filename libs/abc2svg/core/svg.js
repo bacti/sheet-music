@@ -514,7 +514,9 @@ Abc.prototype.ah = function(h) {
 function out_sxsy(x, sep, y) {
     x = sx(x);
     y = sy(y);
-    output += x.toFixed(1) + sep + y.toFixed(1)
+    const out = x.toFixed(1) + sep + y.toFixed(1)
+    output += out
+    return out
 }
 Abc.prototype.out_sxsy = out_sxsy
 
@@ -522,7 +524,7 @@ Abc.prototype.out_sxsy = out_sxsy
 function xypath(x, y, fill)
 {
     output += '<path '
-    const path = {type: 'path', value: ''}
+    const path = { type: 'path' }
     if (fill)
         output += ' d="'
     else
@@ -547,7 +549,7 @@ function xygl(x, y, gl) {
         if (tgl.sc)
         {
             out_XYAB('<text transform="translate(X,Y) scale(A)">B</text>\n', x, y, tgl.sc, tgl.c);
-            return {
+            return [{
                 type: 'g',
                 children:
                 [{
@@ -556,30 +558,30 @@ function xygl(x, y, gl) {
                 }],
                 translate: {x: sx(x), y: sy(y)},
                 scale: tgl.sc,
-            }
+            }]
         }
         else
         {
             out_XYAB('<text x="X" y="Y">A</text>\n', x, y, tgl.c)
-            return {
+            return [{
                 type: 'text',
                 value: tgl.c,
                 x: sx(x),
                 y: sy(y),
-            }
+            }]
         }
     }
     if (!glyphs[gl]) {
         error(1, null, 'no definition of $1', gl)
-        return
+        return []
     }
     def_use(gl);
     out_XYAB('<use x="X" y="Y" xlink:href="#A"/>\n', x, y, gl)
-    return {
+    return [{
         type: 'g',
         children: [glyphson[gl]],
         translate: {x: sx(x), y: sy(y)},
-    }
+    }]
 }
     
 // - specific functions -
@@ -668,7 +670,6 @@ function out_stem(x, y, h, grace,
     symbols = symbols.concat
     ({
         type: 'path',
-        value: '',
         class: 'sW',
         d: out_XYAB('mX YvF', x, y, slen), // stem
     })
@@ -749,12 +750,7 @@ function out_stem(x, y, h, grace,
             }
         }
     }
-    symbols = symbols.concat
-    ({
-        type: 'path',
-        value: '',
-        d,
-    })
+    symbols = symbols.concat({ type: 'path', d })
     output += '"/>\n'
     return symbols
 }
@@ -846,8 +842,7 @@ function out_deco_str(x, y, name, str) {
         a_deco = deco_str_style[name]
 
     if (!a_deco) {
-        xygl(x, y, name)
-        return
+        return xygl(x, y, name)
     }
     x += a_deco.dx;
     y += a_deco.dy;
@@ -860,6 +855,13 @@ function out_deco_str(x, y, name, str) {
     set_font("annotation");
     out_str(str);
     output += '</text>\n'
+    return [{
+        type: 'text',
+        class: name,
+        x: sx(x),
+        y: sy(y),
+        value: a_deco.anchor || '',
+    }]
 }
 
 function out_arp(x, y, val) {

@@ -925,10 +925,11 @@ function deco_width(s) {
 /* (the staves are defined) */
 function draw_all_deco() {
     if (a_de.length == 0)
-        return
+        return []
     var	de, de2, dd, s, note, f, st, x, y, y2, ym, uf, i, str, a,
         new_de = [],
         ymid = []
+    let symbols = []
 
     if (!cfmt.dynalign) {
         st = nstaff;
@@ -1052,12 +1053,12 @@ function draw_all_deco() {
                 str = str.replace(a[0], "")
             }
 //			out_deco_str(x, y + de.dy,	// - dd.h * .2,
-            out_deco_str(x, y,		// - dd.h * .2,
-                    f, str)
+            symbols = symbols.concat(out_deco_str(x, y,		// - dd.h * .2,
+                    f, str))
         } else if (de.lden) {
             out_deco_long(x, y, de)
         } else {
-            xygl(x, y, f)
+            symbols = symbols.concat(xygl(x, y, f))
         }
         if (stv_g.g)
             g_close();
@@ -1066,6 +1067,7 @@ function draw_all_deco() {
 
     // keep the long decorations which continue on the next line
     a_de = new_de
+    return symbols
 }
 
 /* -- create the decorations and define the ones near the notes -- */

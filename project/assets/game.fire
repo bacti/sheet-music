@@ -17,7 +17,7 @@
         "__id__": 2
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 0,
     "_components": [],
     "_prefab": null,
@@ -48,11 +48,11 @@
     "_is3DNode": true,
     "groupIndex": 0,
     "autoReleaseAssets": false,
-    "_id": "816f9548-4529-48f7-b0e4-4ba6f267fc91"
+    "_id": "b23b76c5-5502-436f-bb28-56eaa14303e3"
   },
   {
     "__type__": "cc.Node",
-    "_name": "Chi-Piano",
+    "_name": "Canvas",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -153,7 +153,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 250.28134169370279
+      "z": 434.74475269978825
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -237,18 +237,18 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 1334,
+      "height": 750
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0.5
+      "y": 0
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -667,
-      "y": 0,
+      "x": 0,
+      "y": -375,
       "z": 0
     },
     "_scale": {
@@ -267,30 +267,56 @@
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_id": "bbB7TlyuJJAbfLZrScbq2P"
+    "_id": "39bGtnrwZHh4opL1GlRLYU"
   },
   {
-    "__type__": "cc.WebView",
+    "__type__": "cc.Graphics",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 5
     },
     "_enabled": true,
-    "_useOriginalSize": false,
-    "_url": "",
-    "webviewEvents": [],
-    "_id": "03S56IXj5NjrhCRfsT/v6s"
+    "_materials": [
+      {
+        "__uuid__": "6f801092-0c37-4f30-89ef-c8d960825b36"
+      }
+    ],
+    "_lineWidth": 1,
+    "_strokeColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "_lineJoin": 2,
+    "_lineCap": 0,
+    "_fillColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_miterLimit": 10,
+    "_id": "94A+APjCREDZBHRLHXze1W"
   },
   {
-    "__type__": "3602aPFfJFAcZZ0UWrLlFy6",
+    "__type__": "4dd544cJrhO24ydRBUHb4mL",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 5
     },
     "_enabled": true,
-    "_id": "b4/5/RLTlMBozpAhvRF0Ly"
+    "muzik": {
+      "__uuid__": "fc1b6bd0-d22f-4f5c-868b-f47d3098ed99"
+    },
+    "muzikText": {
+      "__uuid__": "5d2f0bb7-f45f-4eb4-bc31-7147c98400a3"
+    },
+    "_id": "2f4Uk9O3hFMYJELh1Zowa/"
   },
   {
     "__type__": "cc.Canvas",

@@ -35,6 +35,7 @@ export default new class
                 {
                     // console.log(svg)
                     console.log(json)
+                    // console.log(abcElm)
                     abcElm.innerHTML += svg
                 },
                 OnSvgInfo: (...args) => this.OnSvgInfo(...args),
@@ -68,7 +69,7 @@ export default new class
 
     MakeNotesSequence()
     {
-        console.log(this.allNotes)
+        // console.log(this.allNotes)
         this.notesSequence = []
         const barTimes = {}
         let repcnt = 1
@@ -112,7 +113,7 @@ export default new class
                 tmp: note.tmp
             })
         }
-        console.log(this.notesSequence)
+        // console.log(this.notesSequence)
         // iSeq = 0;
         // for (; iSeq < this.notesSequence.length; ++iSeq) {  // set iSeq as target as possible at last cursor position
         //     n = this.notesSequence [iSeq];

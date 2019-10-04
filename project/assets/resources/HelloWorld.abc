@@ -1,18 +1,25 @@
 X:1
 T:Hello World
 %%measurenb 0
-%%singleline true
-%%scale 1
-%%fgcolor white
-%%pagewidth 21.59cm
-%%leftmargin 1.27cm
-%%rightmargin 1.27cm
+%%scale 2
+%%pagewidth 21.00cm
+%%leftmargin 1.72cm
+%%rightmargin 1.72cm
+%%score { 1 | 2 }
 L:1/4
 Q:1/4=80
 M:4/4
 I:linebreak $
 K:C
 V:1 treble stafflines=5 
-%%MIDI program 40
+%%MIDI program 0
+%%MIDI control 7 127
+L:1/8
+V:2 bass 
+%%MIDI channel 1
+%%MIDI program 0
+%%MIDI control 7 127
 V:1
- C4 | %1
+ CD EF GA B2 | C4- C4 |] %2
+V:2
+ C, E, G, C, | C,4 |] %2
