@@ -1,5 +1,4 @@
 import { Abc } from 'abc2svg'
-import MidiJsFont from 'MidiJsFont'
 import Constants,
 {
 	BAR,
@@ -10,7 +9,7 @@ import Constants,
     BLOCK,
     ACCTRANS,
     DYNTAB,
-    SCALE_STEPS
+    SCALE_STEPS,
 }
 from 'Constants'
 
@@ -18,44 +17,26 @@ export default new class
 {
     Parse(abctxt)
     {
-        // this.abctxt = abctxt
-        // if (this.abctxt.indexOf('I:percmap') >= 0)
-        //     this.abctxt = perc2map(this.abctxt)
-        // if (this.abctxt.indexOf('%%map') >= 0)
-        //     mapTab = mapPerc(this.abctxt)
-        // if (this.abctxt.indexOf(' strings') >= 0)
-        // {
-        //     var tns = stringTunings(this.abctxt)
-        //     gTunings = tns[0]
-        //     gDiafret = tns[1]
-        // }
-
         this.playbackTransposition = []
         this.midiInstrument = []
-        this.midiVolume =[ ]
+        this.midiVolume = []
         this.midiPanning = []
 
         return new Promise((resolve, reject) =>
         {
             const abc2svg = new Abc
             ({
-                size: 'height=100%',
                 OnError: error => reject(error),
-                OnLoad: (svg, json) => resolve([svg, json]),
+                OnLoad: (svg, json) => resolve([json, this.midiUsed, this.midiSequence]),
+                GetAbcModel: (...args) => this.GetAbcModel(...args),
             })
             abc2svg.tosvg('abc2svg', abctxt)
         })
     }
 
-    OnSvgInfo(type, s1, s2, x, y, w, h)
-    {
-        // console.log(type, s1, s2, x, y, w, h)
-    }
-
     MakeNotesSequence()
     {
-        console.log(this.allNotes)
-        this.notesSequence = []
+        this.midiSequence = []
         const barTimes = {}
         let repcnt = 1
         let offset = 0
@@ -88,7 +69,7 @@ export default new class
                 barTimes[note.t] = 1
                 continue
             } // measurement times for metronome
-            this.notesSequence.push
+            this.midiSequence.push
             ({
                 t: note.t + offset,
                 // xy: ntsPos[note.ix],
@@ -98,13 +79,6 @@ export default new class
                 tmp: note.tmp
             })
         }
-        console.log(this.notesSequence)
-        // iSeq = 0;
-        // for (; iSeq < this.notesSequence.length; ++iSeq) {  // set iSeq as target as possible at last cursor position
-        //     n = this.notesSequence [iSeq];
-        //     if (n.t >= curNoteTime && !n.inv) break;    // the first visible note
-        // }
-        // if (iSeq == this.notesSequence.length) iSeq -= 1;
     }
 
     ParseSequence(ts)
@@ -236,9 +210,6 @@ export default new class
         this.curKey = {}
         this.midiUsed = {}
         this.allNotes = []
-        this.rMarks = []
-        this.isvgPrev = []  // svg index of each marker
-        this.midiLoaded = {}
         this.vceVol = []
 
         voices.forEach((voice, index) =>
@@ -248,23 +219,8 @@ export default new class
         })
 
         this.staves = this.GetStaves(voices)
-        this.rMarks.forEach(mark => mark.parentNode && mark.parentNode.removeChild(mark))
         this.ParseSequence(tsfirst)
-
-        const { Kleur } = Constants
-        const mask = 0   // cursor mask (0-255)
-        voices.forEach((voice, i) =>
-        {
-            const alpha = 1 << i & mask ? '0' : ''
-            const rMark = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-            rMark.setAttribute('fill', Kleur[i % Kleur.length] + alpha)
-            rMark.setAttribute('fill-opacity', '0.5')
-            rMark.setAttribute('width', '0')
-            this.rMarks.push(rMark)
-            this.isvgPrev.push(-1)
-        })
-
-        return MidiJsFont.Load(0, this.midiUsed)
+        this.MakeNotesSequence()
     }
 
     GetStaves(voices)

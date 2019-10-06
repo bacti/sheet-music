@@ -1,4 +1,5 @@
 import { path2curve } from 'R.curve'
+import { Notes } from 'Constants'
 import AbcNotation from 'AbcNotation'
 
 cc.Class
@@ -6,40 +7,46 @@ cc.Class
     extends: cc.Component,
     properties:
     {
-        muzik:
-        {
-            default: null,
-            type: cc.Prefab,
-        },
-        muzikText:
-        {
-            default: null,
-            type: cc.Prefab,
-        },
+        log: { default: null, type: cc.Node },
+        muzik: { default: null, type: cc.Prefab },
+        muzikText: { default: null, type: cc.Prefab },
     },
 
     onLoad()
     {
-        cc.loader.loadRes('Game Of Thrones', (error, asset) => this.OnLoadingComplete(error, asset))
-    },
+        const log = this.log.getComponent(cc.Label)
+        log.string += 'bacti'
+        this.soundFont = {}
 
-    OnLoadingComplete(error, asset)
-    {
-        if (error)
-            return cc.error(error.toString())
-
-        AbcNotation.Parse(asset._nativeAsset).then(([svg, json]) =>
+        new Promise((resolve, reject) => cc.loader.loadRes('Game Of Thrones', (error, asset) =>
         {
-            const { width, height } = json
-            const graphics = this.node.getComponent(cc.Graphics)
-            graphics.rect(0, 0, width, height)
-            graphics.fillColor = new cc.Color(51, 51, 51, 255)
-            graphics.fill()
-
-            console.log(json)
-            this.svgson = json
-            this.color = new cc.Color(249, 206, 61)
-            this.DrawElement(json, this.node)
+            if (error)
+            {
+                cc.error(error.toString())
+                return reject()
+            }
+            AbcNotation.Parse(asset._nativeAsset).then(([svgson, midiUsed, midiSequence]) =>
+            {
+                this.svgson = svgson
+                this.midiSequence = midiSequence
+                resolve(midiUsed)
+            })
+        }))
+        .then(midiUsed => Promise.all
+        (
+            Object.keys(midiUsed).map(midi => new Promise(resolve =>
+            {
+                const ixm = midi % 128
+                const note = Notes[ixm % 12] + (~~(ixm / 12) - 1)
+                cc.loader.loadRes('acoustic_grand_piano-mp3/' + note, (error, asset) => resolve(this.soundFont[midi] = asset))
+            }))
+        ))
+        .then(evt =>
+        {
+            // console.log(this.soundFont)
+            // console.log(cc.audioEngine)
+            console.log(this.midiSequence)
+            this.DrawElement(this.svgson, this.node)
             this.started = true
         })
     },
@@ -90,9 +97,9 @@ cc.Class
                     }
                 })
                 graphics.lineWidth = Math.max(1, strokeWidth * node.scale)
-                graphics.fillColor = this.color
+                graphics.fillColor = this.node.color
                 graphics.fill()
-                graphics.strokeColor = this.color
+                graphics.strokeColor = this.node.color
                 graphics.stroke()
                 break   
             }
@@ -115,7 +122,7 @@ cc.Class
                 text.lineHeight = symbol.height * 1.5
                 symbol.x = node.x + x * node.scale - symbol.width
                 symbol.y = this.svgson.height - (node.y + y * node.scale) + text.fontSize / 2 - symbol.height * 0.13
-                symbol.color = this.color
+                symbol.color = this.node.color
                 break
             }
 
@@ -137,10 +144,10 @@ cc.Class
         }
     },
 
-    update(dt)
-    {
-        if (!this.started)
-            return
-        this.node.x -= dt * 60
-    },
+    // update(dt)
+    // {
+    //     if (!this.started)
+    //         return
+    //     this.node.x -= dt * 60
+    // },
 })
