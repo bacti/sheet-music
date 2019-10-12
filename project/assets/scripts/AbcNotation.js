@@ -27,7 +27,7 @@ export default new class
             const abc2svg = new Abc
             ({
                 OnError: error => reject(error),
-                OnLoad: (svg, json) => resolve([json, this.midiUsed, this.midiSequence]),
+                OnLoad: (svg, json) => resolve([json, this.midiUsed, this.soundSequence]),
                 GetAbcModel: (...args) => this.GetAbcModel(...args),
             })
             abc2svg.tosvg('abc2svg', abctxt)
@@ -37,6 +37,7 @@ export default new class
     MakeNotesSequence()
     {
         this.midiSequence = []
+        this.soundSequence = {}
         const barTimes = {}
         let repcnt = 1
         let offset = 0
@@ -69,6 +70,17 @@ export default new class
                 barTimes[note.t] = 1
                 continue
             } // measurement times for metronome
+
+            const timestamp = note.t + offset
+            this.soundSequence[timestamp] = this.soundSequence[timestamp] || []
+            this.soundSequence[timestamp].tempo = note.tmp
+            this.soundSequence[timestamp].push
+            ({
+                ns: note.ns,
+                vce: note.v,
+                inv: note.inv,
+                tmp: note.tmp
+            })
             this.midiSequence.push
             ({
                 t: note.t + offset,

@@ -734,7 +734,7 @@ function draw_meter(x, s) {
             symbols = symbols.concat
             ({
                 type: 'g',
-                'text-anchor': 'middle',
+                anchor: 0.5,
                 translate: {x: sx(x), y: sy(y + 6)},
                 children:
                 [
@@ -756,7 +756,7 @@ function draw_meter(x, s) {
             symbols = symbols.concat
             ({
                 type: 'text',
-                'text-anchor': 'middle',
+                anchor: 0.5,
                 x: sx(x),
                 y: sy(y + 12),
                 value: m_gl(meter.top),
@@ -1003,10 +1003,11 @@ var rest_tb = [
 function draw_rest(s) {
     var	s2, i, j, x, y, yb, bx,
     p_staff = staff_tb[s.st]
+    let symbols = []
 
     // if rest alone in the measure or measure repeat,
     // change the head and center
-    if (s.dur_orig == s.p_v.meter.wmeasure
+    if (false && s.dur_orig == s.p_v.meter.wmeasure
      || (s.rep_nb && s.rep_nb >= 0)) {
         if (s.dur < BLEN * 2)
             s.nflags = -2		// semibreve / whole
@@ -1049,9 +1050,9 @@ function draw_rest(s) {
         else
             yb += (p_staff.topbar + p_staff.botbar) / 2
         if (s.rep_nb < 0) {
-            xygl(x, yb, "srep")
+            symbols = symbols.concat(xygl(x, yb, "srep"))
         } else {
-            xygl(x, yb, "mrep")
+            symbols = symbols.concat(xygl(x, yb, "mrep"))
             if (s.rep_nb > 2 && s.v == cur_sy.top_voice) {
                 set_font("annotation");
                 if (gene.curfont.box) {
@@ -1082,7 +1083,7 @@ function draw_rest(s) {
         y -= 6				/* semibreve a bit lower */
 
     // draw the rest
-    xygl(x, y + yb, s.notes[0].head || rest_tb[i])
+    symbols = symbols.concat(xygl(x, y + yb, s.notes[0].head || rest_tb[i], 'note'))
 
     /* output ledger line(s) when greater than minim */
     if (i >= 6) {
@@ -1094,7 +1095,7 @@ function draw_rest(s) {
             case '[':
                 break
             default:
-                xygl(x, y + 6 + yb, "hl1")
+                symbols = symbols.concat(xygl(x, y + 6 + yb, "hl1"))
                 break
             }
             if (i == 9) {			/* longa */
@@ -1113,7 +1114,7 @@ function draw_rest(s) {
         case '[':
             break
         default:
-            xygl(x, y + yb, "hl1")
+            symbols = symbols.concat(xygl(x, y + yb, "hl1"))
             break
         }
     }
@@ -1121,12 +1122,13 @@ function draw_rest(s) {
         x += 8;
         y += yb + 3
         for (i = 0; i < s.dots; i++) {
-            xygl(x, y, "dot");
+            symbols = symbols.concat(xygl(x, y, "dot"))
             x += 3.5
         }
     }
     set_color();
     anno_stop(s)
+    return symbols
 }
 
 /* -- draw grace notes -- */
@@ -1419,7 +1421,7 @@ function draw_basic_note(x, s, m, y_tb) {
             x_note = y_note = 0
         }
         if (!self.psxygl(x_note, y_note, p))
-            symbols = symbols.concat(xygl(x_note, y_note, p))
+            symbols = symbols.concat(xygl(x_note, y_note, p, 'note'))
         if (inv)
             g_close()
     }
@@ -3739,7 +3741,7 @@ function draw_systems(indent) {
     for (st = 0; st <= nstaff; st++)
         xstaff[st] = !cur_sy.st_print[st] ? -1 : 0;
     bar_set();
-    symbols = symbols.concat(draw_lstaff(0))
+    muzikHeader = muzikHeader.concat(draw_lstaff(0))
     for (s = tsfirst; s; s = s.ts_next) {
         if (bar_force && s.time != bar_force) {
             bar_force = 0
@@ -3852,7 +3854,7 @@ function draw_systems(indent) {
         x = xstaff[st]
         if (x < 0 || x >= realwidth)
             continue
-        symbols = symbols.concat(draw_staff(st, x, realwidth))
+        muzikHeader = muzikHeader.concat(draw_staff(st, x, realwidth))
     }
 
     // and the bars
@@ -3904,7 +3906,7 @@ function draw_symbols(p_voice) {
             if (s.invis
              || !staff_tb[st].topbar)
                 break
-            draw_rest(s);
+            symbols = symbols.concat(draw_rest(s))
             break
         case BAR:
             break			/* drawn in draw_systems */
@@ -3920,11 +3922,11 @@ function draw_symbols(p_voice) {
             OnSvgInfo(s);
             y = staff_tb[st].y
             if (s.clef_name)
-                symbols = symbols.concat(sxygl(x, y + s.y, s.clef_name))
+                muzikHeader = muzikHeader.concat(sxygl(x, y + s.y, s.clef_name))
             else if (!s.clef_small)
-                symbols = symbols.concat(xygl(x, y + s.y, s.clef_type + "clef"))
+                muzikHeader = muzikHeader.concat(xygl(x, y + s.y, s.clef_type + "clef"))
             else
-                symbols = symbols.concat(xygl(x, y + s.y, "s" + s.clef_type + "clef"))
+                muzikHeader = muzikHeader.concat(xygl(x, y + s.y, "s" + s.clef_type + "clef"))
             if (s.clef_octave) {
 /*fixme:break the compatibility and avoid strange numbers*/
                 if (s.clef_octave > 0) {
@@ -3936,7 +3938,7 @@ function draw_symbols(p_voice) {
                     if (s.clef_small)
                         y += 1
                 }
-                symbols = symbols.concat(xygl(x - 2, y, "oct"))
+                muzikHeader = muzikHeader.concat(xygl(x - 2, y, "oct"))
             }
             anno_stop(s)
             break
@@ -3949,7 +3951,7 @@ function draw_symbols(p_voice) {
             set_color();
             set_sscale(s.st);
             OnSvgInfo(s);
-            symbols = symbols.concat(draw_meter(x, s))
+            muzikHeader = muzikHeader.concat(draw_meter(x, s))
             anno_stop(s)
             break
         case KEY:
@@ -3961,7 +3963,7 @@ function draw_symbols(p_voice) {
             set_color();
             set_sscale(s.st);
             OnSvgInfo(s);
-            symbols = symbols.concat(self.draw_keysig(x, s))
+            muzikHeader = muzikHeader.concat(self.draw_keysig(x, s))
             anno_stop(s)
             break
         case MREST:

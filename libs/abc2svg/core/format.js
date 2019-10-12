@@ -91,7 +91,7 @@ H "History: "',
     rbmax: 4,
     rbmin: 2,
     repeatfont: {name: "serif", size: 13},
-    scale: 1,
+    scale: 2,
     slurheight: 1.0,
     staffsep: 46,
     stemheight: 21,			// one octave

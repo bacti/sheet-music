@@ -20,11 +20,11 @@
 var	output = "",		// output buffer
     style = '\
 \ntext, tspan{fill:currentColor}\
-\n.stroke{stroke:currentColor;fill:none}\
-\n.bW{stroke:currentColor;fill:none;stroke-width:1}\
-\n.bthW{stroke:currentColor;fill:none;stroke-width:3}\
-\n.slW{stroke:currentColor;fill:none;stroke-width:.7}\
-\n.slthW{stroke:currentColor;fill:none;stroke-width:1.5}\
+\n.stroke{stroke:white;fill:none}\
+\n.bW{stroke:white;fill:none;stroke-width:1}\
+\n.bthW{stroke:white;fill:none;stroke-width:3}\
+\n.slW{stroke:white;fill:none;stroke-width:.7}\
+\n.slthW{stroke:white;fill:none;stroke-width:1.5}\
 \n.sW{stroke:currentColor;fill:none;stroke-width:.7}',
     font_style = '',
     fontson = {},
@@ -538,7 +538,7 @@ function xypath(x, y, fill)
 Abc.prototype.xypath = xypath
 
 // output a glyph
-function xygl(x, y, gl) {
+function xygl(x, y, gl, ntype) {
 // (avoid ps<->js loop)
 //	if (psxygl(x, y, gl))
 //		return
@@ -563,12 +563,14 @@ function xygl(x, y, gl) {
         else
         {
             out_XYAB('<text x="X" y="Y">A</text>\n', x, y, tgl.c)
-            return [{
-                type: 'text',
+            const symbol =
+            {
+                type: ntype ? ntype : 'text',
                 value: tgl.c,
                 x: sx(x),
                 y: sy(y),
-            }]
+            }
+            return symbol
         }
     }
     if (!glyphs[gl]) {
@@ -1067,8 +1069,19 @@ function svg_flush(muzik)
         'xmlns:xlink': 'http://www.w3.org/1999/xlink',
         xmlns: 'http://www.w3.org/2000/svg',
         version: '1.1',
+        system:
+        {
+            type: 'g',
+            children: muzikHeader,
+            scale: cfmt.scale,
+        },
+        notes:
+        {
+            type: 'g',
+            children: muzik,
+            scale: cfmt.scale,
+        },
     }
-    let symbols = []
 
     if (cfmt.fgcolor)
     {
@@ -1103,13 +1116,12 @@ function svg_flush(muzik)
     {
         const styleson = Object.assign(fontson,
         {
-            text: {fill: 'currentColor'},
-            stroke: {stroke: 'currentColor', fill: null},
-            bW: {stroke: 'currentColor', fill: null, strokeWidth: 1},
-            bthW: {stroke: 'currentColor', fill: null, strokeWidth: 3},
-            slW: {stroke: 'currentColor', fill: null, strokeWidth: .7},
-            slthW: {stroke: 'currentColor', fill: null, strokeWidth: 1.5},
-            sW: {stroke: 'currentColor', fill: null, strokeWidth: .7},
+            stroke: { color: '#FFFFFF' },
+            bW: { color: '#FFFFFF', strokeWidth: 1 },
+            bthW: { color: '#FFFFFF', strokeWidth: 3 },
+            slW: { color: '#FFFFFF', strokeWidth: .7 },
+            slthW: { color: '#FFFFFF', strokeWidth: 1.5 },
+            sW: { strokeWidth: .7 },
         })
 
         head += '<style type="text/css">' + style + font_style
@@ -1136,9 +1148,6 @@ function svg_flush(muzik)
     if (defs)
         head += '<defs>' + defs + '\n</defs>\n'
 
-    symbols = symbols.concat(muzikHeader)
-    symbols = symbols.concat(muzik)
-    
     // if %%pagescale != 1, do a global scale
     // (with a container: transform scale in <svg> does not work
     //	the same in all browsers)
@@ -1147,14 +1156,7 @@ function svg_flush(muzik)
     {
         head += '<g class="g" transform="scale(' + cfmt.scale.toFixed(2) + ')">\n'
         g = '</g>\n'
-        symbols =
-        [{
-            type: 'g',
-            children: symbols,
-            scale: cfmt.scale,
-        }]
     }
-    svgson.children = [].concat(symbols)
 
     if (psvg)			// if PostScript support
         psvg.ps_flush(true);	// + setg(0)

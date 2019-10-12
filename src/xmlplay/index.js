@@ -130,6 +130,7 @@ class XmlPlay extends Component
         // dolayout(abctxt)
         // dolayout(Data[ALIAS_SHEET])
 
+        // AbcNotation.Parse(abctxt).then(info =>
         AbcNotation.Parse(Data[ALIAS_SHEET]).then(info =>
         {
             this.iSeq = 0
@@ -152,7 +153,7 @@ const asyncFunction = _ => Promise.all
 ([
     Utils.LoadFont(ALIAS_FONT_MUZIK, 'project/assets/font/abc2svg.ttf'),
     Utils.LoadFont(ALIAS_FONT_TEXT, 'project/assets/font/emilys-candy-regular.ttf'),
-    // Utils.LoadXML(ALIAS_SHEET, 'data/musicxml/Hello World.musicxml'),
-    Utils.LoadText(ALIAS_SHEET, 'project/assets/resources/Game Of Thrones.abc'),
+    // Utils.LoadXML(ALIAS_SHEET, 'data/musicxml/Sap Den Tet Roi.musicxml'),
+    Utils.LoadText(ALIAS_SHEET, 'project/assets/resources/MuzioClementi_SonatinaOpus36No1_Part1.abc'),
 ])
 export default promise(asyncFunction)(XmlPlay)

@@ -55,12 +55,13 @@ var dx_tb = new Float32Array([
 ])
 
 // head width  - index = note head type
+const hw_stretch = 3
 var hw_tb = new Float32Array([
-    4.5,		// FULL
-    5,		// EMPTY
-    6,		// OVAL
-    7,		// OVALBARS
-    8		// SQUARE
+    4.5 * hw_stretch,		// FULL
+    5 * hw_stretch,		// EMPTY
+    6 * hw_stretch,		// OVAL
+    7 * hw_stretch,		// OVALBARS
+    8 * hw_stretch,		// SQUARE
 ])
 
 /* head width for voice overlap - index = note head type */
@@ -4734,7 +4735,7 @@ function output_music() {
             draw_sym_near();		// delayed output
             ;[offset, symbol] = set_staff()
             line_height = offset
-            symbols = symbols.concat(symbol)
+            muzikHeader = muzikHeader.concat(symbol)
             symbols = symbols.concat(draw_systems(indent))
             symbols = symbols.concat(draw_all_sym())
             delayed_update();

@@ -1865,7 +1865,6 @@ function write_tempo(s, x, y) {
         symbols = symbols.concat
         ({
             type: 'rect',
-            value: '',
             class: 'stroke',
             x: sx(bx - 2),
             y: sy(y + bh - 1),

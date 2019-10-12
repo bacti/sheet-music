@@ -1,6 +1,7 @@
 X:1
 T:Hello World
 %%measurenb 0
+%%singleline true
 %%scale 2
 %%pagewidth 21.00cm
 %%leftmargin 1.72cm
@@ -20,6 +21,6 @@ V:2 bass
 %%MIDI program 0
 %%MIDI control 7 127
 V:1
- CD EF GA B2 | C4- C4 |] %2
+!ppp!!>(! CD EF GA!>)! B2 | C4- C4 |] %2
 V:2
- C, E, G, C, | C,4 |] %2
+ C, E, G, C, | C,,4!8vb(!!8vb)! |] %2

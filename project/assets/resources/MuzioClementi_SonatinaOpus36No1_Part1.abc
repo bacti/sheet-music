@@ -3,11 +3,11 @@ T:Sonatina Op.36 No 1 Teil 1 Allegro
 C:Muzio Clementi
 %%measurenb 0
 %%singleline true
-%%scale 1.00
+%%scale 2
 %%pagewidth 21.59cm
 %%leftmargin 1.26cm
 %%rightmargin 1.20cm
-%%score 1 2
+%%score { 1 | 2 }
 L:1/4
 Q:1/4=156
 M:4/4
@@ -23,15 +23,15 @@ V:2 bass stafflines=5
 V:1
 "^Allegro" c2 ec G2 G2 | c2 ec G2 g2 | fe dc Bc Bc | dc BA G2 z2 |!p! c2 ec G2 G2 | e2 ge c2 ec | %6
  dB cA BG A^F | GA Bc de ^fg | A2 a2 a2 a2 | Bc de ^fg ab | c2 c'2 c'2 c'2 | dg bd' c'b ag | %12
- ^fe gf ag fe | ed cB dc BA | G4 z2 z2 ::!p! B2 dB G2 G2 | c2 _ec G2 g2 |$ f2 d2 _e2 c2 | %18
+ ^fe gf ag fe | ed cB dc BA | G4 z2 z2 | !p! B2 dB G2 G2 | c2 _ec G2 g2 |$ f2 d2 _e2 c2 | %18
  Bc dB G2 G2 |!f! gG gG gG gG | gG gG gG gG | d_e fd fe dc | [gB]2 z2 z2 z2 |!p! C2 EC G,2 G,2 | %24
  C2 EC G,2 G2 | FE DC B,C B,C |$ DC B,A, G,2 z2 | C2 G,C E2 E2 |"_cresc." E2 CE G2 c2 | %29
  .[GE]2 .[FD]2 .[EC]2 .[DB,]2 |!f! CD EF GA Bc |$ D2 d2 d2 d2 | EF GA Bc de | F2 f2 f2 f2 | %34
- Gc eg fe dc | ag fe dc BA | GA FG EF DE | C2 z2 z2 z2 :| %38
+ Gc eg fe dc | ag fe dc BA | GA FG EF DE | C2 z2 z2 z2 |] %38
 V:2
  C, z z2 | C, z z2 | C, z C, z | G,, z G,/F,/ E,/D,/ | C, z z2 | C z z ^F, | G, C, D, D,, | %7
  G,, z z2 | ^F,/D/ A,/D/ F,/D/ A,/D/ | G, z z2 | A,/D/ C/D/ A,/D/ C/D/ | B, z z2 | C z C, z | %13
- D, z D,, z | G,,/B,,/ D,/G,/ G,, z :: F4 | _E4 | B,2 C2 | G,2 z2 | F G, D G, | _E G, C G, | %21
+ D, z D,, z | G,,/B,,/ D,/G,/ G,, z | F4 | _E4 | B,2 C2 | G,2 z2 | F G, D G, | _E G, C G, | %21
  B, z C z | G, G,, G,/F,/ E,/D,/ | C, z z2 | C, z z2 | C, z C, z | G,, z G,,/F,,/ E,,/D,,/ | %27
  C,, z z2 | C, z z2 | G, z G,, z | C, z z2 | B,,/G,/ D,/G,/ B,,/G,/ D,/G,/ | C, z z2 | %33
- D,/G,/ F,/G,/ D,/G,/ F,/G,/ | E, z z2 | F, z F, z | G, z G,, z | C,,/E,,/ G,,/C,/ C,, z :| %38
+ D,/G,/ F,/G,/ D,/G,/ F,/G,/ | E, z z2 | F, z F, z | G, z G,, z | C,,/E,,/ G,,/C,/ C,, z |] %38

@@ -2117,7 +2117,6 @@ function write_tempo(s, x, y) {
         symbols = symbols.concat
         ({
             type: 'rect',
-            value: '',
             class: 'stroke',
             x: sx(bx - 2),
             y: sy(y + bh - 1),
@@ -2968,7 +2967,7 @@ function draw_meter(x, s) {
             symbols = symbols.concat
             ({
                 type: 'g',
-                'text-anchor': 'middle',
+                anchor: 0.5,
                 translate: {x: sx(x), y: sy(y + 6)},
                 children:
                 [
@@ -2990,7 +2989,7 @@ function draw_meter(x, s) {
             symbols = symbols.concat
             ({
                 type: 'text',
-                'text-anchor': 'middle',
+                anchor: 0.5,
                 x: sx(x),
                 y: sy(y + 12),
                 value: m_gl(meter.top),
@@ -3237,10 +3236,11 @@ var rest_tb = [
 function draw_rest(s) {
     var	s2, i, j, x, y, yb, bx,
     p_staff = staff_tb[s.st]
+    let symbols = []
 
     // if rest alone in the measure or measure repeat,
     // change the head and center
-    if (s.dur_orig == s.p_v.meter.wmeasure
+    if (false && s.dur_orig == s.p_v.meter.wmeasure
      || (s.rep_nb && s.rep_nb >= 0)) {
         if (s.dur < BLEN * 2)
             s.nflags = -2		// semibreve / whole
@@ -3283,9 +3283,9 @@ function draw_rest(s) {
         else
             yb += (p_staff.topbar + p_staff.botbar) / 2
         if (s.rep_nb < 0) {
-            xygl(x, yb, "srep")
+            symbols = symbols.concat(xygl(x, yb, "srep"))
         } else {
-            xygl(x, yb, "mrep")
+            symbols = symbols.concat(xygl(x, yb, "mrep"))
             if (s.rep_nb > 2 && s.v == cur_sy.top_voice) {
                 set_font("annotation");
                 if (gene.curfont.box) {
@@ -3316,7 +3316,7 @@ function draw_rest(s) {
         y -= 6				/* semibreve a bit lower */
 
     // draw the rest
-    xygl(x, y + yb, s.notes[0].head || rest_tb[i])
+    symbols = symbols.concat(xygl(x, y + yb, s.notes[0].head || rest_tb[i], 'note'))
 
     /* output ledger line(s) when greater than minim */
     if (i >= 6) {
@@ -3328,7 +3328,7 @@ function draw_rest(s) {
             case '[':
                 break
             default:
-                xygl(x, y + 6 + yb, "hl1")
+                symbols = symbols.concat(xygl(x, y + 6 + yb, "hl1"))
                 break
             }
             if (i == 9) {			/* longa */
@@ -3347,7 +3347,7 @@ function draw_rest(s) {
         case '[':
             break
         default:
-            xygl(x, y + yb, "hl1")
+            symbols = symbols.concat(xygl(x, y + yb, "hl1"))
             break
         }
     }
@@ -3355,12 +3355,13 @@ function draw_rest(s) {
         x += 8;
         y += yb + 3
         for (i = 0; i < s.dots; i++) {
-            xygl(x, y, "dot");
+            symbols = symbols.concat(xygl(x, y, "dot"))
             x += 3.5
         }
     }
     set_color();
     anno_stop(s)
+    return symbols
 }
 
 /* -- draw grace notes -- */
@@ -3653,7 +3654,7 @@ function draw_basic_note(x, s, m, y_tb) {
             x_note = y_note = 0
         }
         if (!self.psxygl(x_note, y_note, p))
-            symbols = symbols.concat(xygl(x_note, y_note, p))
+            symbols = symbols.concat(xygl(x_note, y_note, p, 'note'))
         if (inv)
             g_close()
     }
@@ -5973,7 +5974,7 @@ function draw_systems(indent) {
     for (st = 0; st <= nstaff; st++)
         xstaff[st] = !cur_sy.st_print[st] ? -1 : 0;
     bar_set();
-    symbols = symbols.concat(draw_lstaff(0))
+    muzikHeader = muzikHeader.concat(draw_lstaff(0))
     for (s = tsfirst; s; s = s.ts_next) {
         if (bar_force && s.time != bar_force) {
             bar_force = 0
@@ -6086,7 +6087,7 @@ function draw_systems(indent) {
         x = xstaff[st]
         if (x < 0 || x >= realwidth)
             continue
-        symbols = symbols.concat(draw_staff(st, x, realwidth))
+        muzikHeader = muzikHeader.concat(draw_staff(st, x, realwidth))
     }
 
     // and the bars
@@ -6138,7 +6139,7 @@ function draw_symbols(p_voice) {
             if (s.invis
              || !staff_tb[st].topbar)
                 break
-            draw_rest(s);
+            symbols = symbols.concat(draw_rest(s))
             break
         case BAR:
             break			/* drawn in draw_systems */
@@ -6154,11 +6155,11 @@ function draw_symbols(p_voice) {
             OnSvgInfo(s);
             y = staff_tb[st].y
             if (s.clef_name)
-                symbols = symbols.concat(sxygl(x, y + s.y, s.clef_name))
+                muzikHeader = muzikHeader.concat(sxygl(x, y + s.y, s.clef_name))
             else if (!s.clef_small)
-                symbols = symbols.concat(xygl(x, y + s.y, s.clef_type + "clef"))
+                muzikHeader = muzikHeader.concat(xygl(x, y + s.y, s.clef_type + "clef"))
             else
-                symbols = symbols.concat(xygl(x, y + s.y, "s" + s.clef_type + "clef"))
+                muzikHeader = muzikHeader.concat(xygl(x, y + s.y, "s" + s.clef_type + "clef"))
             if (s.clef_octave) {
 /*fixme:break the compatibility and avoid strange numbers*/
                 if (s.clef_octave > 0) {
@@ -6170,7 +6171,7 @@ function draw_symbols(p_voice) {
                     if (s.clef_small)
                         y += 1
                 }
-                symbols = symbols.concat(xygl(x - 2, y, "oct"))
+                muzikHeader = muzikHeader.concat(xygl(x - 2, y, "oct"))
             }
             anno_stop(s)
             break
@@ -6183,7 +6184,7 @@ function draw_symbols(p_voice) {
             set_color();
             set_sscale(s.st);
             OnSvgInfo(s);
-            symbols = symbols.concat(draw_meter(x, s))
+            muzikHeader = muzikHeader.concat(draw_meter(x, s))
             anno_stop(s)
             break
         case KEY:
@@ -6195,7 +6196,7 @@ function draw_symbols(p_voice) {
             set_color();
             set_sscale(s.st);
             OnSvgInfo(s);
-            symbols = symbols.concat(self.draw_keysig(x, s))
+            muzikHeader = muzikHeader.concat(self.draw_keysig(x, s))
             anno_stop(s)
             break
         case MREST:
@@ -6902,7 +6903,7 @@ H "History: "',
     rbmax: 4,
     rbmin: 2,
     repeatfont: {name: "serif", size: 13},
-    scale: 1,
+    scale: 2,
     slurheight: 1.0,
     staffsep: 46,
     stemheight: 21,			// one octave
@@ -8297,12 +8298,13 @@ var dx_tb = new Float32Array([
 ])
 
 // head width  - index = note head type
+const hw_stretch = 3
 var hw_tb = new Float32Array([
-    4.5,		// FULL
-    5,		// EMPTY
-    6,		// OVAL
-    7,		// OVALBARS
-    8		// SQUARE
+    4.5 * hw_stretch,		// FULL
+    5 * hw_stretch,		// EMPTY
+    6 * hw_stretch,		// OVAL
+    7 * hw_stretch,		// OVALBARS
+    8 * hw_stretch,		// SQUARE
 ])
 
 /* head width for voice overlap - index = note head type */
@@ -12976,7 +12978,7 @@ function output_music() {
             draw_sym_near();		// delayed output
             ;[offset, symbol] = set_staff()
             line_height = offset
-            symbols = symbols.concat(symbol)
+            muzikHeader = muzikHeader.concat(symbol)
             symbols = symbols.concat(draw_systems(indent))
             symbols = symbols.concat(draw_all_sym())
             delayed_update();
@@ -15998,7 +16000,7 @@ function xy_str(x, y, str,
     case 'c':
         x -= wh[0] / 2;
         output += '" text-anchor="middle">'
-        text['text-anchor'] = 'middle'
+        text.anchor = 0.5
         break
     case 'j':
         output += '" textLength="' + w.toFixed(1) + '">'
@@ -16007,7 +16009,7 @@ function xy_str(x, y, str,
     case 'r':
         x -= wh[0];
         output += '" text-anchor="end">'
-        text['text-anchor'] = 'end'
+        text.anchor = 1
         break
     default:
         output += '">'
@@ -16032,8 +16034,6 @@ function xy_str(x, y, str,
         symbols = symbols.concat
         ({
             type: 'rect',
-            value: '',
-            children: [],
             class: 'stroke',
             x: sx(x - 2),
             y: sy(y + wh[1]),
@@ -16719,11 +16719,11 @@ function write_heading() {
 var	output = "",		// output buffer
     style = '\
 \ntext, tspan{fill:currentColor}\
-\n.stroke{stroke:currentColor;fill:none}\
-\n.bW{stroke:currentColor;fill:none;stroke-width:1}\
-\n.bthW{stroke:currentColor;fill:none;stroke-width:3}\
-\n.slW{stroke:currentColor;fill:none;stroke-width:.7}\
-\n.slthW{stroke:currentColor;fill:none;stroke-width:1.5}\
+\n.stroke{stroke:white;fill:none}\
+\n.bW{stroke:white;fill:none;stroke-width:1}\
+\n.bthW{stroke:white;fill:none;stroke-width:3}\
+\n.slW{stroke:white;fill:none;stroke-width:.7}\
+\n.slthW{stroke:white;fill:none;stroke-width:1.5}\
 \n.sW{stroke:currentColor;fill:none;stroke-width:.7}',
     font_style = '',
     fontson = {},
@@ -17237,7 +17237,7 @@ function xypath(x, y, fill)
 Abc.prototype.xypath = xypath
 
 // output a glyph
-function xygl(x, y, gl) {
+function xygl(x, y, gl, ntype) {
 // (avoid ps<->js loop)
 //	if (psxygl(x, y, gl))
 //		return
@@ -17262,12 +17262,14 @@ function xygl(x, y, gl) {
         else
         {
             out_XYAB('<text x="X" y="Y">A</text>\n', x, y, tgl.c)
-            return [{
-                type: 'text',
+            const symbol =
+            {
+                type: ntype ? ntype : 'text',
                 value: tgl.c,
                 x: sx(x),
                 y: sy(y),
-            }]
+            }
+            return symbol
         }
     }
     if (!glyphs[gl]) {
@@ -17766,8 +17768,19 @@ function svg_flush(muzik)
         'xmlns:xlink': 'http://www.w3.org/1999/xlink',
         xmlns: 'http://www.w3.org/2000/svg',
         version: '1.1',
+        system:
+        {
+            type: 'g',
+            children: muzikHeader,
+            scale: cfmt.scale,
+        },
+        notes:
+        {
+            type: 'g',
+            children: muzik,
+            scale: cfmt.scale,
+        },
     }
-    let symbols = []
 
     if (cfmt.fgcolor)
     {
@@ -17802,13 +17815,12 @@ function svg_flush(muzik)
     {
         const styleson = Object.assign(fontson,
         {
-            text: {fill: 'currentColor'},
-            stroke: {stroke: 'currentColor', fill: null},
-            bW: {stroke: 'currentColor', fill: null, strokeWidth: 1},
-            bthW: {stroke: 'currentColor', fill: null, strokeWidth: 3},
-            slW: {stroke: 'currentColor', fill: null, strokeWidth: .7},
-            slthW: {stroke: 'currentColor', fill: null, strokeWidth: 1.5},
-            sW: {stroke: 'currentColor', fill: null, strokeWidth: .7},
+            stroke: { color: '#FFFFFF' },
+            bW: { color: '#FFFFFF', strokeWidth: 1 },
+            bthW: { color: '#FFFFFF', strokeWidth: 3 },
+            slW: { color: '#FFFFFF', strokeWidth: .7 },
+            slthW: { color: '#FFFFFF', strokeWidth: 1.5 },
+            sW: { strokeWidth: .7 },
         })
 
         head += '<style type="text/css">' + style + font_style
@@ -17835,9 +17847,6 @@ function svg_flush(muzik)
     if (defs)
         head += '<defs>' + defs + '\n</defs>\n'
 
-    symbols = symbols.concat(muzikHeader)
-    symbols = symbols.concat(muzik)
-    
     // if %%pagescale != 1, do a global scale
     // (with a container: transform scale in <svg> does not work
     //	the same in all browsers)
@@ -17846,14 +17855,7 @@ function svg_flush(muzik)
     {
         head += '<g class="g" transform="scale(' + cfmt.scale.toFixed(2) + ')">\n'
         g = '</g>\n'
-        symbols =
-        [{
-            type: 'g',
-            children: symbols,
-            scale: cfmt.scale,
-        }]
     }
-    svgson.children = [].concat(symbols)
 
     if (psvg)			// if PostScript support
         psvg.ps_flush(true);	// + setg(0)
@@ -21268,4 +21270,4 @@ abc2svg.modules = {
         return this.nreq == nreq_i
     }
 } // modules
-abc2svg.version="1.19.5";abc2svg.vdate="2019-06-13"
+abc2svg.version="1.19.5";abc2svg.vdate="2019-09-23"

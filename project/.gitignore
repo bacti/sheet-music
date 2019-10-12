@@ -3,5 +3,4 @@ library/
 local/
 temp/
 *.log
-*.meta
 package-lock.json

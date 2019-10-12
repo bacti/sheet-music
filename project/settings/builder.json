@@ -19,8 +19,8 @@
   "fb-instant-games": {},
   "includeSDKBox": false,
   "inlineSpriteFrames": true,
-  "inlineSpriteFrames_native": true,
-  "md5Cache": false,
+  "inlineSpriteFrames_native": false,
+  "md5Cache": true,
   "mergeStartScene": false,
   "optimizeHotUpdate": false,
   "orientation": {
@@ -29,13 +29,13 @@
     "portrait": false,
     "upsideDown": false
   },
-  "packageName": "org.cocos2d.project",
+  "packageName": "com.bacti.chipiano",
   "qqplay": {
     "REMOTE_SERVER_ROOT": "",
     "orientation": "portrait",
     "zip": false
   },
-  "startScene": "b23b76c5-5502-436f-bb28-56eaa14303e3",
+  "startScene": "792b6fd3-245d-4744-8192-53ff30aff8ff",
   "title": "project",
   "webOrientation": "auto",
   "wechatgame": {

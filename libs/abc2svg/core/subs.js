@@ -270,7 +270,7 @@ function xy_str(x, y, str,
     case 'c':
         x -= wh[0] / 2;
         output += '" text-anchor="middle">'
-        text['text-anchor'] = 'middle'
+        text.anchor = 0.5
         break
     case 'j':
         output += '" textLength="' + w.toFixed(1) + '">'
@@ -279,7 +279,7 @@ function xy_str(x, y, str,
     case 'r':
         x -= wh[0];
         output += '" text-anchor="end">'
-        text['text-anchor'] = 'end'
+        text.anchor = 1
         break
     default:
         output += '">'
@@ -304,8 +304,6 @@ function xy_str(x, y, str,
         symbols = symbols.concat
         ({
             type: 'rect',
-            value: '',
-            children: [],
             class: 'stroke',
             x: sx(x - 2),
             y: sy(y + wh[1]),

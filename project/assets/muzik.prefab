@@ -89,7 +89,7 @@
     "_lineHeight": 0,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "453b9767-4130-4899-908d-05fa66e20110"
+      "__uuid__": "c68d63cf-eb7e-4b84-81c8-990a9179afdc"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -98,7 +98,7 @@
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
-    "_N$cacheMode": 2,
+    "_N$cacheMode": 1,
     "_id": ""
   },
   {
@@ -107,7 +107,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "fc1b6bd0-d22f-4f5c-868b-f47d3098ed99"
+      "__uuid__": "71011621-b4d3-4468-a770-2248c0c9e06e"
     },
     "fileId": "bciYY3KQpO6Ii2JBZ4Bss3",
     "sync": false
