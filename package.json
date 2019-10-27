@@ -4,7 +4,7 @@
   "license": "ISC",
   "version": "0.0.1",
   "scripts": {
-    "dev": "%NODE_PATH%/.bin/cross-env NODE_ENV=development node_modules/.bin/webpack-dev-server -d --devtool source-map --port 8001 --host 0.0.0.0",
+    "dev": "%NODE_PATH%/.bin/cross-env NODE_ENV=development node_modules/.bin/webpack-dev-server -d --devtool source-map --port 8002 --host 0.0.0.0",
     "release": "%NODE_PATH%/.bin/cross-env NODE_ENV=production node_modules/.bin/webpack --progress --profile --colors",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
