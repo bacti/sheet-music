@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Test\main.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\Test_CoreFrequencyDomainFeatures.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\Test_CoreTimeDomainFeatures.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\Test_Gist.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\Test_MFCC.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\Test_OnsetDetectionFunction.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\Test_Pitch.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\compiler_log_formatter.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\debug.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\decorator.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\execution_monitor.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\framework.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\junit_log_formatter.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\plain_report_formatter.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\progress_monitor.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\results_collector.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\results_reporter.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\test_framework_init_observer.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\test_tools.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\test_tree.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\unit_test_log.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\unit_test_monitor.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\unit_test_parameters.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\xml_log_formatter.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\xml_report_formatter.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\boost\test\impl\unit_test_main.cpp">
+      <Filter>boost</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\test-signals\Test_Signals.cpp">
+      <Filter>test\test-signals</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gist.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\CoreFrequencyDomainFeatures.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\CoreTimeDomainFeatures.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fft\AccelerateFFT.cpp">
+      <Filter>src\fft</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fft\WindowFunctions.cpp">
+      <Filter>src\fft</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mfcc\MFCC.cpp">
+      <Filter>src\mfcc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\onset-detection-functions\OnsetDetectionFunction.cpp">
+      <Filter>src\onset-detection-functions</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pitch\Yin.cpp">
+      <Filter>src\pitch</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="boost">
+      <UniqueIdentifier>{3a82e17a-50ff-47ee-8cea-f6aa6a763290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{6faa84c7-9dff-4778-8dc2-0eaec673519d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test\test-signals">
+      <UniqueIdentifier>{9f2f1f80-2046-4e93-9b1b-f42e4aa7847c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{1762b41c-3bd8-49af-a108-222f8e573c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{fa67b2a1-c977-40fd-88cb-360044a656c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\fft">
+      <UniqueIdentifier>{d10e5c53-4d44-4c36-abab-ec6eca0f646f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\mfcc">
+      <UniqueIdentifier>{5e11160b-2841-4cac-90f1-5c82e212b80a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\onset-detection-functions">
+      <UniqueIdentifier>{1624753f-ad88-4b6b-b976-8b0a06d242cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\pitch">
+      <UniqueIdentifier>{63fe4690-37c3-42ba-87a4-36ae941c02bc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Test\test-signals\Test_Signals.h">
+      <Filter>test\test-signals</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gist.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\CoreFrequencyDomainFeatures.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\CoreTimeDomainFeatures.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fft\AccelerateFFT.h">
+      <Filter>src\fft</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fft\WindowFunctions.h">
+      <Filter>src\fft</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mfcc\MFCC.h">
+      <Filter>src\mfcc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\onset-detection-functions\OnsetDetectionFunction.h">
+      <Filter>src\onset-detection-functions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pitch\Yin.h">
+      <Filter>src\pitch</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
