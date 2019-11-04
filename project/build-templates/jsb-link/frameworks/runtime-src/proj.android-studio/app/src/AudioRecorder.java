@@ -1,5 +1,4 @@
 package com.bacti.chipiano;
-
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxJavascriptJavaBridge;
 import android.Manifest;
@@ -7,12 +6,15 @@ import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.cocos2dx.javascript.AppActivity;
 
@@ -20,9 +22,10 @@ public class AudioRecorder
 {
     private static final int SAMPLING_RATE_IN_HZ = 44100;
     private static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
-    private static final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
-    private static final int BUFFER_SIZE_FACTOR = 2;
-    private static final int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLING_RATE_IN_HZ, CHANNEL_CONFIG, AUDIO_FORMAT) * BUFFER_SIZE_FACTOR;
+    private static final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_FLOAT;
+    // private static final int BUFFER_SIZE = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
+    private static final int BUFFER_SIZE_FACTOR = 4; // 2 bytes in 16bit format
+    private static final int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLING_RATE_IN_HZ, CHANNEL_CONFIG, AUDIO_FORMAT);
     private static final AtomicBoolean recordingInProgress = new AtomicBoolean(false);
     private static AudioRecord recorder = null;
     private static Thread recordingThread = null;
@@ -32,22 +35,35 @@ public class AudioRecorder
     {
         try
         {
-            recorder = new AudioRecord.Builder()
-                .setAudioSource(MediaRecorder.AudioSource.MIC)
-                .setAudioFormat
-                (
-                    new AudioFormat.Builder()
-                    .setEncoding(AUDIO_FORMAT)
-                    .setSampleRate(SAMPLING_RATE_IN_HZ)
-                    .setChannelMask(CHANNEL_CONFIG)
-                    .build()
-                )
-                .setBufferSizeInBytes(BUFFER_SIZE)
-                .build();
+            recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
+                SAMPLING_RATE_IN_HZ,
+                CHANNEL_CONFIG,
+                AUDIO_FORMAT,
+                BUFFER_SIZE * BUFFER_SIZE_FACTOR);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            {
+                if (android.media.audiofx.NoiseSuppressor.isAvailable())
+                {
+                    android.media.audiofx.NoiseSuppressor noiseSuppressor = android.media.audiofx.NoiseSuppressor.create(recorder.getAudioSessionId());
+                    if (noiseSuppressor != null)
+                    {
+                        noiseSuppressor.setEnabled(true);
+                    }
+                }
+                if (android.media.audiofx.AutomaticGainControl.isAvailable())
+                {
+                    android.media.audiofx.AutomaticGainControl automaticGainControl = android.media.audiofx.AutomaticGainControl.create(recorder.getAudioSessionId());
+                    if (automaticGainControl != null)
+                    {
+                        automaticGainControl.setEnabled(true);
+                    }
+                }
+            }
             AppActivity.OnNativeMessage("cc.OnPrepareRecording(true)");
         }
         catch (final Exception e)
         {
+            e.printStackTrace();
             AppActivity.OnNativeMessage("cc.OnPrepareRecording(false)");
         }
     }
@@ -64,6 +80,7 @@ public class AudioRecorder
         }
         catch (final Exception e)
         {
+            e.printStackTrace();
             AppActivity.OnNativeMessage("cc.OnStartRecording(false)");
         }
     }
@@ -73,14 +90,15 @@ public class AudioRecorder
         try
         {
             recordingInProgress.set(false);
-            recorder.stop();
-            recorder.release();
+            // recorder.stop();
+            // recorder.release();
             // recorder = null;
             // recordingThread = null;
             AppActivity.OnNativeMessage("cc.OnStopRecording(true)");
         }
         catch (final Exception e)
         {
+            e.printStackTrace();
             AppActivity.OnNativeMessage("cc.OnStopRecording(false)");
         }
     }
@@ -90,21 +108,19 @@ public class AudioRecorder
         @Override
         public void run()
         {
-            final File file = new File(AppActivity.contexto.getExternalCacheDir(), "recording.wav");
-            final ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
-
-            try (final FileOutputStream outStream = new FileOutputStream(file))
+            float buffer[] = new float[BUFFER_SIZE];
+            try
             {
                 while (recordingInProgress.get())
                 {
-                    int result = recorder.read(buffer, BUFFER_SIZE);
+                    int result = recorder.read(buffer, 0, BUFFER_SIZE, AudioRecord.READ_NON_BLOCKING);
                     if (result < 0)
                     {
                         throw new RuntimeException("Reading of audio buffer failed: " +
                                 getBufferReadFailureReason(result));
                     }
-                    outStream.write(buffer.array(), 0, BUFFER_SIZE);
-                    buffer.clear();
+                    float pitch = buffering(buffer, BUFFER_SIZE);
+                    AppActivity.OnNativeMessage("cc.Log(" + pitch + ")");
                 }
             }
             catch (Exception e)
@@ -128,4 +144,6 @@ public class AudioRecorder
             }
         }
     }
+
+    public native static float buffering(float[] buffer, int bufferSize);
 }

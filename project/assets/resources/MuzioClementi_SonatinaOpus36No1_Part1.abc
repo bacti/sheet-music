@@ -1,25 +1,15 @@
 X:1
 T:Sonatina Op.36 No 1 Teil 1 Allegro
 C:Muzio Clementi
-%%measurenb 0
-%%singleline true
-%%scale 2
-%%pagewidth 21.59cm
-%%leftmargin 1.26cm
-%%rightmargin 1.20cm
 %%score { 1 | 2 }
 L:1/4
 Q:1/4=156
 M:4/4
 I:linebreak $
 K:C
-V:1 treble stafflines=5 
-%%MIDI program 0
-%%MIDI control 7 127
+V:1 treble stafflines=5
 L:1/8
 V:2 bass stafflines=5 
-%%MIDI program 0
-%%MIDI control 10 63.5
 V:1
 "^Allegro" c2 ec G2 G2 | c2 ec G2 g2 | fe dc Bc Bc | dc BA G2 z2 |!p! c2 ec G2 G2 | e2 ge c2 ec | %6
  dB cA BG A^F | GA Bc de ^fg | A2 a2 a2 a2 | Bc de ^fg ab | c2 c'2 c'2 c'2 | dg bd' c'b ag | %12

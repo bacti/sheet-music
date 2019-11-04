@@ -1,0 +1,14 @@
+X:1
+T:Test Beam
+%%score { 1 | 2 }
+L:1/16
+Q:1/8=80
+M:4/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+ AB2c ea3 bd'c'2 bagf C2DE2 |] %3
+V:2
+ C2 B,A, A,,3 E,, F,2E,D,2 D,,C,,B,,, C,D,2 E,2 |] %3

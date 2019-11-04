@@ -1,0 +1,14 @@
+X:1
+T:Test Notes
+L:1/16
+Q:1/4=80
+M:4/4
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+ C2D2 E2F2 G2A2 B4 | z z z z z z z z z z z z z z z z | G2G2 G2G2 G2G2 G2G2 | z4 z4 z4 z4 | C8 C8 | %5
+ z16 |] %6
+V:2
+ C,4 E,4 G,4 C,4 | C,C,C,C, C,C,C,C, C,C,C,C, C,C,C,C, | z2 z2 z2 z2 z2 z2 z2 z2 | %3
+ C,4 C,4 C,4 C,4 | z8 z8 | C,16 |] %6

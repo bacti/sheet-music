@@ -68,17 +68,17 @@
         "__id__": 7
       },
       {
-        "__id__": 9
+        "__id__": 10
       },
       {
-        "__id__": 16
+        "__id__": 18
       }
     ],
     "_active": true,
     "_level": 1,
     "_components": [
       {
-        "__id__": 19
+        "__id__": 21
       }
     ],
     "_prefab": null,
@@ -162,7 +162,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 427.8165494695127
+      "z": 426.9505240657283
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -244,7 +244,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 37.8
+      "height": 200
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -253,7 +253,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -667,
+      "x": 0,
       "y": 0,
       "z": 0
     },
@@ -291,18 +291,20 @@
     "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
-    "_fontSize": 20,
-    "_lineHeight": 30,
+    "_fontSize": 100,
+    "_lineHeight": 200,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "656e1ee9-c5c3-4cf8-a9a3-53dc83d3d92f"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Tahoma",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
-    "_N$cacheMode": 0,
+    "_N$cacheMode": 2,
     "_id": "d2Djd33URLer2GNJoMQOUR"
   },
   {
@@ -318,6 +320,9 @@
     "_components": [
       {
         "__id__": 8
+      },
+      {
+        "__id__": 9
       }
     ],
     "_prefab": null,
@@ -397,6 +402,19 @@
     "_id": "9dlRZcejtMkaQYxsGIwvDJ"
   },
   {
+    "__type__": "6d471YcuWNLSp3/CvY0ypVy",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 7
+    },
+    "_enabled": true,
+    "muzik": {
+      "__uuid__": "6a7be7ae-7b2f-46c8-9fde-267c435088ef"
+    },
+    "_id": "09krrz2QNHXLb6ul7UULZD"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "sheet-music",
     "_objFlags": 0,
@@ -405,20 +423,20 @@
     },
     "_children": [
       {
-        "__id__": 10
+        "__id__": 11
       },
       {
-        "__id__": 12
+        "__id__": 14
       }
     ],
     "_active": true,
     "_level": 2,
     "_components": [
       {
-        "__id__": 14
+        "__id__": 16
       },
       {
-        "__id__": 15
+        "__id__": 17
       }
     ],
     "_prefab": null,
@@ -466,17 +484,20 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "notes",
+    "_name": "partituur",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 9
+      "__id__": 10
     },
     "_children": [],
     "_active": true,
     "_level": 3,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 12
+      },
+      {
+        "__id__": 13
       }
     ],
     "_prefab": null,
@@ -490,8 +511,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1334,
-      "height": 600
+      "width": 0,
+      "height": 0
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -500,7 +521,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 667,
+      "x": 0,
       "y": 0,
       "z": 0
     },
@@ -520,14 +541,14 @@
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_id": "39bGtnrwZHh4opL1GlRLYU"
+    "_id": "2dIUaiMJ9E4JBcAGaLvZl3"
   },
   {
     "__type__": "cc.Graphics",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 10
+      "__id__": 11
     },
     "_enabled": true,
     "_materials": [
@@ -553,21 +574,34 @@
       "a": 255
     },
     "_miterLimit": 10,
-    "_id": "94A+APjCREDZBHRLHXze1W"
+    "_id": "05349fQAlIcZwCB1/8mUe8"
+  },
+  {
+    "__type__": "c71e4JMEVZNFIozSpYf+bkv",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 11
+    },
+    "_enabled": true,
+    "muzik": {
+      "__uuid__": "6a7be7ae-7b2f-46c8-9fde-267c435088ef"
+    },
+    "_id": "4fNGx7VF1HKobjMpSl4Kty"
   },
   {
     "__type__": "cc.Node",
     "_name": "indicator",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 9
+      "__id__": 10
     },
     "_children": [],
     "_active": true,
     "_level": 3,
     "_components": [
       {
-        "__id__": 13
+        "__id__": 15
       }
     ],
     "_prefab": null,
@@ -581,8 +615,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 24,
-      "height": 440
+      "width": 36,
+      "height": 480
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -591,8 +625,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 200,
-      "y": 20,
+      "x": 220,
+      "y": 28,
       "z": 0
     },
     "_scale": {
@@ -618,7 +652,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 12
+      "__id__": 14
     },
     "_enabled": true,
     "_materials": [
@@ -650,7 +684,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 10
     },
     "_enabled": true,
     "_materials": [
@@ -670,26 +704,20 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 10
     },
     "_enabled": true,
     "star": {
-      "__id__": 16
-    },
-    "notes": {
-      "__id__": 10
+      "__id__": 18
     },
     "system": {
       "__id__": 7
     },
+    "partituur": {
+      "__id__": 11
+    },
     "log": {
       "__id__": 5
-    },
-    "muzik": {
-      "__uuid__": "71011621-b4d3-4468-a770-2248c0c9e06e"
-    },
-    "muzikText": {
-      "__uuid__": "a84b70c9-f3d4-4143-8e73-ef78982ad5f5"
     },
     "_id": "e9J8H/vt9MK4a5+5SJrnK5"
   },
@@ -705,10 +733,10 @@
     "_level": 2,
     "_components": [
       {
-        "__id__": 17
+        "__id__": 19
       },
       {
-        "__id__": 18
+        "__id__": 20
       }
     ],
     "_prefab": null,
@@ -727,12 +755,12 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -155,
+      "x": -160,
       "y": 0,
       "z": 0
     },
@@ -759,7 +787,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 16
+      "__id__": 18
     },
     "_enabled": true,
     "_materials": [
@@ -791,7 +819,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 16
+      "__id__": 18
     },
     "_enabled": true,
     "_id": "e89Z5X5UdLdaDeXiHQSJmE"

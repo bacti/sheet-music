@@ -1,88 +1,259 @@
-module.exports =
+const Constants =
 {
-	BLEN: 1536,
+    SEMIBREVE: 1,
+    MINIM: 0.5,
+    CROTCHET: 0.25,
+    QUAVER: 0.125,
+    SEMIQUAVER: 0.0625,
+    NOTATION:
+    {
+        treble:
+        {
+            octave: 4,
+            tone: 3,
+            '0'  : 'C',
+            '0.5': 'Db',
+            '1'  : 'D',
+            '1.5': 'Eb',
+            '2'  : 'E',
+            '3'   : 'F',
+            '3.5' : 'Gb',
+            '4'   : 'G',
+            '4.5' : 'Ab',
+            '5'   : 'A',
+            '5.5' : 'Bb',
+            '6'   : 'B',
+        },
+        bass:
+        {
+            octave: 3,
+            tone: -2,
+            '0'  : 'C',
+            '0.5': 'Db',
+            '1'  : 'D',
+            '1.5': 'Eb',
+            '2'  : 'E',
+            '3'   : 'F',
+            '3.5' : 'Gb',
+            '4'   : 'G',
+            '4.5' : 'Ab',
+            '5'   : 'A',
+            '5.5' : 'Bb',
+            '6'   : 'B',
+        },
+    },
+    CLEFS:
+    {
+        treble:
+        {
+            symbol: '\u0059',
+            C: { pitch: -3 },
+            D: { pitch: -2 },
+            E: { pitch: -1 },
+            F: { pitch: 0 },
+            G: { pitch: 1 },
+            A: { pitch: 2 },
+            B: { pitch: 3 },
+        },
+        bass:
+        {
+            symbol: '\u005A',
+            C: { pitch: 9 },
+            D: { pitch: 10 },
+            E: { pitch: 11 },
+            F: { pitch: 12 },
+            G: { pitch: 13 },
+            A: { pitch: 14 },
+            B: { pitch: 15 },
+        },
+    },
+    KEY_DEF:
+    {
+        F: { accidental: '-', keySet: ['B'] },
+        Bb: { accidental: '-', keySet: ['B', 'E'] },
+        Eb: { accidental: '-', keySet: ['A', 'B', 'E'] },
+    },
+    KEY:
+    {
+        treble:
+        {
+            F: '\u0063',
+            Bb: '\u0064',
+            Eb: '\u0065',
+            G: '\u006B',
+        },
+        bass:
+        {
+            F: '\u003B',
+            Bb: '\u003C',
+            Eb: '\u003D',
+            G: '\u005B',
+        },
+    },
+    METER:
+    {
+        '4/4': '\u0071',
+        '3/4': '\u0072',
+        '2/4': '\u0073',
+        '6/8': '\u0074',
+        '12/8': '\u0075',
+    },
+    REST:
+    {
+        1: '\u004A',
+        0.5: '\u0048',
+        0.25: '\u0046',
+        0.125: '\u0045',
+        0.0625: '\u0044',
+    },
+    DOTTED:
+    {
+        0.5: '\u0043',
+    },
+    BRACE:
+    {
+        codes: '\u004C',
+        offset: 10,
+        lineHeight: 520,
+        fontSize: 350,
+    },
+    OCTAVE:
+    {
+        "'": 7,
+        ',': -7,
+    },
+    FLAG_UP:
+    {
+        QUAVER: '\u004F',
+        SEMIQUAVER: '\u0051',
+        OFFSET: 49,
+        LINE_SHIFT: 64,
+    },
+    FLAG_DOWN:
+    {
+        QUAVER: '\u0050',
+        SEMIQUAVER: '\u0052',
+        OFFSET: 22,
+        LINE_SHIFT: -150,
+    },
 
-	// symbol types
-	BAR: 0,
-	CLEF: 1,
-	CUSTOS: 2,
-	GRACE: 4,
-	KEY: 5,
-	METER: 6,
-	MREST: 7,
-	NOTE: 8,
-	PART: 9,
-	REST: 10,
-	SPACE: 11,
-	STAVES: 12,
-	STBRK: 13,
-	TEMPO: 14,
-	BLOCK: 16,
-	REMARK: 17,
+    BLANK: '\u0061',
+    QUARTER_BLANK: '\u0062',
 
-	// note heads
-	FULL: 0,
-	EMPTY: 1,
-	OVAL: 2,
-	OVALBARS: 3,
-	SQUARE: 4,
+    SYMBOL_SCALE_FACTOR: 1,
+    BAR_OFFSET: 0,
+    PARTITUUR_OFFSET: 1024,
+    INDICATOR_OFFSET: 200,
+    SYSTEM_OFFSET: 50,
+    STAVE_PADDING: 600,
+    STAVE_OFFSET: [, 368, 68],
+    STEM_OFFSET: [, 382, 82],
+    FONT_SIZE: 150,
+    FONT_WIDTH: 75,
+    FONT_HEIGHT: 25,
 
-	// slur/tie types (3 + 1 bits)
-	SL_ABOVE: 0x01,
-	SL_BELOW: 0x02,
-	SL_AUTO: 0x03,
-	SL_HIDDEN: 0x04,
-	SL_DOTTED: 0x08, // (modifier bit)
+    GetNotation: ({ id, accidental, pitch, clef, duration }) =>
+    {
+        const NOTATION = Constants.NOTATION[clef]
+        let tone = pitch + NOTATION.tone
+        switch (accidental)
+        {
+            case '-':
+            case '_':
+                tone -= 0.5; break
+            case '=':
+                tone += 0; break
+            case '+':
+            case '^':
+                tone += 0.5; break
+        }
 
-	// staff system
-	OPEN_BRACE: 0x01,
-	CLOSE_BRACE: 0x02,
-	OPEN_BRACKET: 0x04,
-	CLOSE_BRACKET: 0x08,
-	OPEN_PARENTH: 0x10,
-	CLOSE_PARENTH: 0x20,
-	STOP_BAR: 0x40,
-	FL_VOICE: 0x80,
-	OPEN_BRACE2: 0x0100,
-	CLOSE_BRACE2: 0x0200,
-	OPEN_BRACKET2: 0x0400,
-	CLOSE_BRACKET2: 0x0800,
-	MASTER_VOICE: 0x1000,
+        const octaveOffset = Math.floor(tone / 7)
+        const notation = NOTATION[tone - 7 * octaveOffset] + (NOTATION.octave + octaveOffset)
+        return { id, notation, tone, duration }
+    },
 
-	IN: 96, // resolution 96 PPI
-	CM: 37.8, // 1 inch: 2.54 centimeter
-    YSTEP: 256, /* number of steps for y offsets */
+    GetNote: duration =>
+    {
+        const symbols = []
+        switch (duration)
+        {
+            case 1: // semibreve
+                symbols.push('\u004B')
+            break
+            case 0.5: // minim
+                symbols.push('\u0049')
+            break
+            case 0.25: // crotchet
+            case 0.125: // quaver
+            case 0.0625: // semiquaver
+                symbols.push('\u0047')
+            break
+        }
+        return symbols
+    },
 
-    Instruments:
-    [
-        'acoustic_grand_piano', 'bright_acoustic_piano', 'electric_grand_piano',
-        'honkytonk_piano', 'electric_piano_1', 'electric_piano_2', 'harpsichord', 'clavinet', 'celesta',
-        'glockenspiel', 'music_box', 'vibraphone', 'marimba', 'xylophone', 'tubular_bells', 'dulcimer',
-        'drawbar_organ', 'percussive_organ', 'rock_organ', 'church_organ', 'reed_organ', 'accordion',
-        'harmonica', 'tango_accordion', 'acoustic_guitar_nylon', 'acoustic_guitar_steel',
-        'electric_guitar_jazz', 'electric_guitar_clean', 'electric_guitar_muted', 'overdriven_guitar',
-        'distortion_guitar', 'guitar_harmonics', 'acoustic_bass', 'electric_bass_finger', 
-        'electric_bass_pick', 'fretless_bass', 'slap_bass_1', 'slap_bass_2', 'synth_bass_1',
-        'synth_bass_2', 'violin', 'viola', 'cello', 'contrabass', 'tremolo_strings', 'pizzicato_strings',
-        'orchestral_harp', 'timpani', 'string_ensemble_1', 'string_ensemble_2', 'synth_strings_1',
-        'synth_strings_2', 'choir_aahs', 'voice_oohs', 'synth_choir', 'orchestra_hit', 'trumpet',
-        'trombone', 'tuba', 'muted_trumpet', 'french_horn', 'brass_section', 'synth_brass_1',
-        'synth_brass_2', 'soprano_sax', 'alto_sax', 'tenor_sax', 'baritone_sax', 'oboe', 'english_horn',
-        'bassoon', 'clarinet', 'piccolo', 'flute', 'recorder', 'pan_flute', 'blown_bottle', 'shakuhachi',
-        'whistle', 'ocarina', 'lead_1_square', 'lead_2_sawtooth', 'lead_3_calliope', 'lead_4_chiff',
-        'lead_5_charang', 'lead_6_voice', 'lead_7_fifths', 'lead_8_bass__lead', 'pad_1_new_age',
-        'pad_2_warm', 'pad_3_polysynth', 'pad_4_choir', 'pad_5_bowed', 'pad_6_metallic', 'pad_7_halo',
-        'pad_8_sweep', 'fx_1_rain', 'fx_2_soundtrack', 'fx_3_crystal', 'fx_4_atmosphere',
-        'fx_5_brightness', 'fx_6_goblins', 'fx_7_echoes', 'fx_8_scifi', 'sitar', 'banjo', 'shamisen',
-        'koto', 'kalimba', 'bagpipe', 'fiddle', 'shanai', 'tinkle_bell', 'agogo', 'steel_drums',
-        'woodblock', 'taiko_drum', 'melodic_tom', 'synth_drum', 'reverse_cymbal', 'guitar_fret_noise',
-        'breath_noise', 'seashore', 'bird_tweet', 'telephone_ring', 'helicopter', 'applause','gunshot'
-    ],
-    KeySteps: [3, 0, 4, 1, 5, 2, 6], // step values of the cycle of fifth
-    SCALE_STEPS: [0, 2, 4, 5, 7, 9, 11], // step values of the scale of C
-    ACCTRANS: { '-2': -2, '-1': -1, 0: 0, 1: 1, 2: 2, 3: 0 },
-    diamap: '0,1-,1,1+,2,3,3,4,4,5,6,6+,7,8-,8,8+,9,10,10,11,11,12,13,13+,14',
-    DYNTAB: { ppp: 30, pp: 45, p: 60, mp: 75, mf: 90, f: 105, ff: 120, fff: 127 },
-    Kleur: [ '#f9f', '#3cf', '#c99', '#f66', '#fc0', '#cc0', '#ccc' ],
-    Notes: 'C Db D Eb E F Gb G Ab A Bb B'.split(' '),
+    GetFlag: ({ up, duration, offset, lineHeight }) =>
+    {
+        const FLAG = up ? Constants.FLAG_UP : Constants.FLAG_DOWN
+        const symbol = { offset: offset + FLAG.OFFSET, lineHeight: lineHeight + FLAG.LINE_SHIFT }
+        switch (duration)
+        {
+            case 0.125: // quaver
+                symbol.codes = FLAG.QUAVER
+            break
+            case 0.0625: // semiquaver
+                symbol.codes = FLAG.SEMIQUAVER
+            break
+        }
+        return symbol
+    },
+
+    GetDynamic: ({ dynamic, offset, lineHeight }) =>
+    {
+        const symbol = { offset, lineHeight }
+        switch (dynamic)
+        {
+            case 'pppp':
+                symbol.codes = '\u0025'
+                symbol.offset -= Constants.FONT_WIDTH / 2
+            break
+            case 'ppp':
+                symbol.codes = '\u0026'
+                symbol.offset -= Constants.FONT_WIDTH / 2
+            break
+            case 'pp': symbol.codes = '\u0027'; break
+            case 'p': symbol.codes = '\u0038'; break
+            case 'mp': symbol.codes = '\u0028'; break
+            case 'mf': symbol.codes = '\u0029'; break
+            case 'f': symbol.codes = '\u0021'; break
+            case 'm': symbol.codes = '\u0039'; break
+            case 's': symbol.codes = '\u0022'; break
+            case 'z': symbol.codes = '\u0023'; break
+        }
+        return symbol
+    },
+
+    GetRestDotted: (fraction, length, offset, lineHeight) =>
+    {
+        const symbol = { offset, lineHeight }
+        switch (fraction)
+        {
+            case 0.5: symbol.codes = length == 1 ? '\u0042' : '\u0041'; break
+        }
+        return symbol
+    },
+
+    GetAccidental: ({ accidental, offset, lineHeight }) =>
+    {
+        const symbol = { offset, lineHeight }
+        switch (accidental)
+        {
+            case '_': symbol.codes = '\u0056'; break
+            case '=': symbol.codes = '\u0057'; break
+            case '^': symbol.codes = '\u0058'; break
+        }
+        return symbol
+    },
 }
+module.exports = Constants

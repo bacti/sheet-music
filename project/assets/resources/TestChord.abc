@@ -1,0 +1,14 @@
+X:1
+T:Hello World
+%%score { 1 | 2 }
+L:1/16
+Q:1/4=80
+M:4/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+ [CDEFG]A,3 B,2C2 [DEFAB]8 | [CDEF]16 |] %1
+V:2
+ [D,E,F,G,]4 [E,G,A,B,]12 | [D,E,F,]16 |] %1

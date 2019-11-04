@@ -1,0 +1,14 @@
+X:1
+T:Test Pitch
+%%score { 1 | 2 }
+L:1/16
+Q:1/4=80
+M:4/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+ G,2A,2 B,2C2 D2E2 F2G2 | AB^c^d e^f^g^a bc'd'c' bagf |] %3
+V:2
+ B,,,C,,_D,,_E,, F,,_G,,_A,,_B,, C,D,E,F, G,A,B,C | DEFG, F,E,D,C, B,,A,,G,,F,, E,,D,,C,,B,,, |] %3

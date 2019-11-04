@@ -1,25 +1,14 @@
 X:1
 T:Game Of Thrones
-%%measurenb 0
-%%singleline true
-%%scale 2
-%%pagewidth 21.00cm
-%%leftmargin 1.72cm
-%%rightmargin 1.72cm
 %%score { 1 | 2 }
 L:1/8
 Q:1/4=100
 M:12/8
 I:linebreak $
 K:Eb
-V:1 treble stafflines=5 
-%%MIDI program 0
-%%MIDI control 7 127
+V:1 treble stafflines=5
 L:1/16
-V:2 bass 
-%%MIDI channel 1
-%%MIDI program 0
-%%MIDI control 7 127
+V:2 bass
 V:1
 !pp! G2C2EF G2C2EF G2C2EF G2C2=EF |!f! G2C2=EF!p! G2C2EF G2C2EF G2C2EF | %2
 !f! [GCG,]6 [CG,]6 [EG,-][G,-F] [GG,]4 [CG,]4 [EG,-][FG,] | %3

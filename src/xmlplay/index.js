@@ -136,7 +136,7 @@ class XmlPlay extends Component
             this.iSeq = 0
             this.notesSequence = info.notesSequence
             this.sources = info.sources
-            this.Scan()
+            // this.Scan()
         })
     }
 
@@ -153,7 +153,7 @@ const asyncFunction = _ => Promise.all
 ([
     Utils.LoadFont(ALIAS_FONT_MUZIK, 'project/assets/font/abc2svg.ttf'),
     Utils.LoadFont(ALIAS_FONT_TEXT, 'project/assets/font/emilys-candy-regular.ttf'),
-    // Utils.LoadXML(ALIAS_SHEET, 'data/musicxml/Sap Den Tet Roi.musicxml'),
-    Utils.LoadText(ALIAS_SHEET, 'project/assets/resources/MuzioClementi_SonatinaOpus36No1_Part1.abc'),
+    // Utils.LoadXML(ALIAS_SHEET, 'data/musicxml/Hello World.musicxml'),
+    Utils.LoadText(ALIAS_SHEET, 'project/assets/resources/Sample.abc'),
 ])
 export default promise(asyncFunction)(XmlPlay)

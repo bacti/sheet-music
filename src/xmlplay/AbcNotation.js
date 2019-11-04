@@ -29,7 +29,7 @@ export default new class
         {
             const abc2svg = new Abc
             ({
-                size: 'height=100%',
+                size: 'width=100%',
                 OnError: error => reject(error),
                 OnLoad: (svg, json) =>
                 {
