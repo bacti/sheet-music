@@ -2,19 +2,19 @@
  Copyright (c) 2010-2013 cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
-
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -50,11 +50,11 @@ static RootViewController* rootViewController = nullptr;
     float scale = [[UIScreen mainScreen] scale];
     CGRect bounds = [[UIScreen mainScreen] bounds];
     window = [[UIWindow alloc] initWithFrame: bounds];
-
+    
     // cocos2d application instance
     app = new AppDelegate(bounds.size.width * scale, bounds.size.height * scale);
     app->setMultitouch(true);
-
+    
     // Use RootViewController to manage CCEAGLView
     _viewController = [[RootViewController alloc]init];
     rootViewController = _viewController;
@@ -76,14 +76,14 @@ static RootViewController* rootViewController = nullptr;
         // use this method on ios6
         [window setRootViewController:_viewController];
     }
-
+    
     [window makeKeyAndVisible];
-
+    
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-
+    
     //run the cocos2d-x game scene
     app->start();
-
+    
     return YES;
 }
 
@@ -109,7 +109,7 @@ static RootViewController* rootViewController = nullptr;
      */
     [[SDKWrapper getInstance] applicationDidEnterBackground:application];
     app->applicationDidEnterBackground();
-
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -118,7 +118,7 @@ static RootViewController* rootViewController = nullptr;
      */
     [[SDKWrapper getInstance] applicationWillEnterForeground:application];
     app->applicationWillEnterForeground();
-
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
