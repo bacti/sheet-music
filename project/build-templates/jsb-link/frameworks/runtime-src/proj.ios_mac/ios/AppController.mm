@@ -138,7 +138,7 @@ static RootViewController* rootViewController = nullptr;
      */
 }
 
-+(void)showAlertDialog:(NSString *)title withMessage:(NSString *)message {
++(void)CheckAuthorization:(NSString *)title withMessage:(NSString *)message {
     
     
     

@@ -31,7 +31,7 @@
 {
 }
 
-+(void)showAlertDialog:(NSString *)title withMessage:(NSString *)message;
++(void)CheckAuthorization:(NSString *)title withMessage:(NSString *)message;
 
 @property(nonatomic, readonly) RootViewController* viewController;
 

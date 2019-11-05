@@ -31,7 +31,7 @@ cc.Class
         }
 
         Promise.resolve()
-        // .then(evt => AudioRecorder.CheckAuthorization('android.permission.RECORD_AUDIO'))
+        .then(evt => AudioRecorder.CheckAuthorization('android.permission.RECORD_AUDIO'))
         // .then(authorised => AudioRecorder.PrepareRecording())
         .then(evt => new Promise((resolve, reject) => cc.loader.loadRes('Sample', (error, asset) =>
         {
