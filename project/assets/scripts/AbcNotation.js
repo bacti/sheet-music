@@ -26,7 +26,7 @@ export default new class
         this.abctxt.replace(/V:(\d+)[\x20]+(\w+)\s+([^V]*)/g, (_, id, clef, txt) =>
         {
             const unitLength = this.GetUnitLength(txt)
-            let raw = this.abctxt.match(new RegExp(`V:${id}\r([^V]+)`))[1].replace(/%\d+/g, '').trim()
+            let raw = this.abctxt.match(new RegExp(`V:${id}[\r\n]+([^V]+)`))[1].replace(/%\d+/g, '').trim()
             accidental && keySet.forEach(note => (raw = raw.replace(new RegExp(`${note}`, 'g'), accidental + note)))
             voices[id] = { clef, raw, unit: unitLength == 0 ? unit : 1 / unitLength }
             this.tune.unit = Math.min(this.tune.unit, voices[id].unit)
