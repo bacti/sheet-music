@@ -138,7 +138,6 @@ static RootViewController* rootViewController = nullptr;
      */
 }
 
-<<<<<<< HEAD
 +(void)OnNativeMessage:(NSString *)message
 {
     NSString *execStr = [NSString stringWithFormat:message];
@@ -203,25 +202,6 @@ NSError* error = nil;
     [audioRecorder prepareToRecord];
     [audioRecorder record];
     [self OnNativeMessage:@"cc.OnPrepareRecording(true)"];
-=======
-+(void)CheckAuthorization:(NSString *)title withMessage:(NSString *)message {
-    
-    
-    
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
-                                                                   message:message
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {
-                                                              //响应事件
-                                                              NSString *execStr = [NSString stringWithFormat:@"cc.TestNativeCallJS()"];
-                                                              se::ScriptEngine::getInstance()->evalString([execStr UTF8String]);
-                                                          }];
-
-    [alert addAction:defaultAction];
-    [rootViewController presentViewController:alert animated:NO completion:nil];
->>>>>>> 50cc992a53693d5d4aa31b167ba216c74ac9561d
 }
 
 @end
