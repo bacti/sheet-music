@@ -31,7 +31,11 @@
 {
 }
 
+<<<<<<< HEAD
 +(void)OnNativeMessage:(NSString *)message;
+=======
++(void)CheckAuthorization:(NSString *)title withMessage:(NSString *)message;
+>>>>>>> 50cc992a53693d5d4aa31b167ba216c74ac9561d
 
 @property(nonatomic, readonly) RootViewController* viewController;
 
