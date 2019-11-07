@@ -4,28 +4,26 @@ const defaultOptions =
     Channels: 2,
     AudioQuality: 'High',
     AudioEncoding: 'aac',
-    MeteringEnabled: false,
-    MeasurementMode: false,
-    AudioEncodingBitRate: 32000,
-    IncludeBase64: false,
 }
 
 const AudioRecorder =
 {
     CallNative: options =>
     {
-        const { className, methodName, methodSignature, parameters } = options
+        const { method, OS_ANDROID, OS_IOS } = options
         switch (cc.sys.os)
         {
             case cc.sys.OS_ANDROID:
             {
-                jsb.reflection.callStaticMethod(className, methodName, methodSignature, ...parameters)
+                const { className, signature, parameters } = OS_ANDROID
+                jsb.reflection.callStaticMethod(className, method, signature, ...parameters)
                 break
             }
 
             case cc.sys.OS_IOS:
             {
-                jsb.reflection.callStaticMethod('AppController', `${methodName}:withMessage:`, ...parameters)
+                const { className, signature = '', parameters = [] } = OS_IOS
+                jsb.reflection.callStaticMethod(className, `${method}${signature}`, ...parameters)
                 break
             }
         }
@@ -35,6 +33,7 @@ const AudioRecorder =
     {
         if (cc.sys.os == cc.sys.OS_WINDOWS)
             return resolve()
+        cc.OnPrepareRecording = result => cc.Log(`PrepareRecording: ${result}`) || resolve(result)
 
         const
         {
@@ -42,18 +41,22 @@ const AudioRecorder =
             Channels,
             AudioQuality,
             AudioEncoding,
-            MeteringEnabled,
-            MeasurementMode,
-            IncludeBase64,
         } = Object.assign(defaultOptions, options)
         AudioRecorder.CallNative
         ({
-            className: 'com/bacti/chipiano/AudioRecorder',
-            methodName: 'PrepareRecording',
-            methodSignature: '(IILjava/lang/String;Ljava/lang/String;ZZZ)V',
-            parameters: [SampleRate, Channels, AudioQuality, AudioEncoding, MeteringEnabled, MeasurementMode, IncludeBase64],
+
+            method: 'PrepareRecording',
+            OS_ANDROID:
+            {
+                className: 'com/bacti/chipiano/AudioRecorder',
+                signature: '(IILjava/lang/String;Ljava/lang/String;)V',
+                parameters: [SampleRate, Channels, AudioQuality, AudioEncoding],
+            },
+            OS_IOS:
+            {
+                className: 'AppController',
+            },
         })
-        cc.OnPrepareRecording = result => cc.Log(`PrepareRecording: ${result}`) || resolve(result)
     }),
 
     StartRecording: _ => new Promise(resolve =>
@@ -80,18 +83,26 @@ const AudioRecorder =
         cc.OnStopRecording = result => cc.Log(`StopRecording: ${result}`) || resolve(result)
     }),
 
-    CheckAuthorization: permission => new Promise((resolve, reject) =>
+    CheckAuthorization: _ => new Promise((resolve, reject) =>
     {
         if (cc.sys.os == cc.sys.OS_WINDOWS)
             return resolve(true)
+        cc.OnCheckAuthorization = result => cc.Log(`Authorization: ${result}`) || resolve(result)
+
         AudioRecorder.CallNative
         ({
-            className: 'org/cocos2dx/javascript/AppActivity',
-            methodName: 'CheckAuthorization',
-            methodSignature: '(Ljava/lang/String;)V',
-            parameters: [permission],
+            method: 'CheckAuthorization',
+            OS_ANDROID:
+            {
+                className: 'org/cocos2dx/javascript/AppActivity',
+                signature: '(Ljava/lang/String;)V',
+                parameters: ['android.permission.RECORD_AUDIO'],
+            },
+            OS_IOS:
+            {
+                className: 'AppController',
+            },
         })
-        cc.OnCheckAuthorization = result => cc.Log(`Authorization: ${result}`) || resolve(result)
     }),
 }
 export default AudioRecorder

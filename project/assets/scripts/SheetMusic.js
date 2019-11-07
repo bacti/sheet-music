@@ -31,8 +31,8 @@ cc.Class
         }
 
         Promise.resolve()
-        // .then(evt => AudioRecorder.CheckAuthorization('android.permission.RECORD_AUDIO'))
-        // .then(authorised => AudioRecorder.PrepareRecording())
+        .then(evt => AudioRecorder.CheckAuthorization())
+        .then(authorised => AudioRecorder.PrepareRecording())
         .then(evt => new Promise((resolve, reject) => cc.loader.loadRes('Sample', (error, asset) =>
         {
             if (error)
@@ -61,11 +61,12 @@ cc.Class
                     cc.loader.loadRes
                     (
                         'acoustic_grand_piano-mp3/' + midi,
-                        (error, asset) => resolve(soundFont[midi] = asset),
+                        cc.AudioClip,
+                        (error, resource) => resolve(soundFont[midi] = resource),
                     )
                 }))
             )
-            this.Play({ muzikSequence, soundFont })
+            .then(evt => this.Play({ muzikSequence, soundFont }))
         })
     },
 

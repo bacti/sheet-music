@@ -30,8 +30,7 @@ public class AudioRecorder
     private static AudioRecord recorder = null;
     private static Thread recordingThread = null;
 
-    public static void PrepareRecording(int SampleRate, int Channels, String AudioQuality, String AudioEncoding,
-        boolean MeteringEnabled, boolean MeasurementMode, boolean IncludeBase64)
+    public static void PrepareRecording(int SampleRate, int Channels, String AudioQuality, String AudioEncoding)
     {
         try
         {

@@ -2,19 +2,19 @@
  Copyright (c) 2010-2013 cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
-
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,7 +31,7 @@
 #import "SDKWrapper.h"
 #import "platform/ios/CCEAGLView-ios.h"
 #include "cocos/scripting/js-bindings/jswrapper/SeApi.h"
-
+#import <AVFoundation/AVFoundation.h>
 
 using namespace cocos2d;
 
@@ -50,11 +50,11 @@ static RootViewController* rootViewController = nullptr;
     float scale = [[UIScreen mainScreen] scale];
     CGRect bounds = [[UIScreen mainScreen] bounds];
     window = [[UIWindow alloc] initWithFrame: bounds];
-
+    
     // cocos2d application instance
     app = new AppDelegate(bounds.size.width * scale, bounds.size.height * scale);
     app->setMultitouch(true);
-
+    
     // Use RootViewController to manage CCEAGLView
     _viewController = [[RootViewController alloc]init];
     rootViewController = _viewController;
@@ -76,14 +76,14 @@ static RootViewController* rootViewController = nullptr;
         // use this method on ios6
         [window setRootViewController:_viewController];
     }
-
+    
     [window makeKeyAndVisible];
-
+    
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-
+    
     //run the cocos2d-x game scene
     app->start();
-
+    
     return YES;
 }
 
@@ -109,7 +109,7 @@ static RootViewController* rootViewController = nullptr;
      */
     [[SDKWrapper getInstance] applicationDidEnterBackground:application];
     app->applicationDidEnterBackground();
-
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -118,7 +118,7 @@ static RootViewController* rootViewController = nullptr;
      */
     [[SDKWrapper getInstance] applicationWillEnterForeground:application];
     app->applicationWillEnterForeground();
-
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -138,23 +138,70 @@ static RootViewController* rootViewController = nullptr;
      */
 }
 
-+(void)showAlertDialog:(NSString *)title withMessage:(NSString *)message {
-    
-    
-    
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
-                                                                   message:message
-                                                            preferredStyle:UIAlertControllerStyleAlert];
++(void)OnNativeMessage:(NSString *)message
+{
+    NSString *execStr = [NSString stringWithFormat:message];
+    se::ScriptEngine::getInstance()->evalString([execStr UTF8String]);
+}
 
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {
-                                                              //响应事件
-                                                              NSString *execStr = [NSString stringWithFormat:@"cc.TestNativeCallJS()"];
-                                                              se::ScriptEngine::getInstance()->evalString([execStr UTF8String]);
-                                                          }];
++(void)CheckAuthorization
+{
+    AVAudioSessionRecordPermission permissionStatus = [[AVAudioSession sharedInstance] recordPermission];
+    switch (permissionStatus)
+    {
+        case AVAudioSessionRecordPermissionUndetermined:
+            [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted)
+            {
+                if (granted)
+                {
+                    [self OnNativeMessage:@"cc.OnCheckAuthorization(true)"];
+                }
+                else
+                {
+                    [self OnNativeMessage:@"cc.OnCheckAuthorization(false)"];
+                }
+            }];
+        break;
+        case AVAudioSessionRecordPermissionDenied:
+            [self OnNativeMessage:@"cc.OnCheckAuthorization(false)"];
+        break;
+        case AVAudioSessionRecordPermissionGranted:
+            [self OnNativeMessage:@"cc.OnCheckAuthorization(true)"];
+        break;
+    }
+}
 
-    [alert addAction:defaultAction];
-    [rootViewController presentViewController:alert animated:NO completion:nil];
+NSURL* audioFileURL =
+    [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent: [NSString stringWithString: @"test.aac"]]];
+    // [NSURL fileURLWithPath:[NSString stringWithFormat: @"%@%@", [[NSBundle mainBundle] bundlePath], @"./test.aac"]];
+NSNumber* audioQuality = [NSNumber numberWithInt:AVAudioQualityHigh];
+NSNumber* audioEncoding = [NSNumber numberWithInt:kAudioFormatMPEG4AAC];
+NSNumber* audioChannels = [NSNumber numberWithInt:2];
+NSNumber* audioSampleRate = [NSNumber numberWithFloat:44100.0];
+NSDictionary* recordSettings =
+[
+    NSDictionary dictionaryWithObjectsAndKeys:
+        audioQuality, AVEncoderAudioQualityKey,
+        audioEncoding, AVFormatIDKey,
+        audioChannels, AVNumberOfChannelsKey,
+        audioSampleRate, AVSampleRateKey,
+        nil
+];
+NSError* error = nil;
+
++(void)PrepareRecording
+{
+    AVAudioRecorder* audioRecorder =
+    [
+        [AVAudioRecorder alloc]
+        initWithURL: audioFileURL
+        settings: recordSettings
+        error: &error
+    ];
+    [audioRecorder setDelegate:self];
+    [audioRecorder prepareToRecord];
+    [audioRecorder record];
+    [self OnNativeMessage:@"cc.OnPrepareRecording(true)"];
 }
 
 @end
