@@ -4,35 +4,21 @@
 
 @implementation AudioRecorder
 
-void *refToSelf;
 RecordState recordState;
 
 void AudioInputCallback
 (
-    void * inUserData,  // Custom audio metadata
+    void* inUserData,  // Custom audio metadata
     AudioQueueRef inAQ,
     AudioQueueBufferRef inBuffer,
-    const AudioTimeStamp * inStartTime,
+    const AudioTimeStamp* inStartTime,
     UInt32 inNumberPacketDescriptions,
-    const AudioStreamPacketDescription * inPacketDescs
+    const AudioStreamPacketDescription* inPacketDescs
 )
 {
-    RecordState * recordState = (RecordState*)inUserData;
+    RecordState* recordState = (RecordState*)inUserData;
     AudioQueueEnqueueBuffer(recordState->queue, inBuffer, 0, NULL);
-    AudioRecorder *rec = (AudioRecorder *) refToSelf;
-    [rec FeedSamplesToEngine:inBuffer->mAudioDataBytesCapacity audioData:inBuffer->mAudioData];
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self)
-    {
-        // en = new ASREngine();
-        // en->engineInit("1293.lm", "1293.dic");
-        refToSelf = self;
-    }
-    return self;
+    [AudioRecorder FeedSamplesToEngine:inBuffer->mAudioDataBytesCapacity audioData:inBuffer->mAudioData];
 }
 
 + (void)PrepareRecording
@@ -89,12 +75,11 @@ void AudioInputCallback
     AudioFileClose(recordState.audioFile);
 }
 
-- (void)FeedSamplesToEngine:(UInt32)audioDataBytesCapacity audioData:(void *)audioData
++ (void)FeedSamplesToEngine:(UInt32)audioDataBytesCapacity audioData:(void *)audioData
 {
     int sampleCount = audioDataBytesCapacity / sizeof(AUDIO_DATA_TYPE_FORMAT);
     AUDIO_DATA_TYPE_FORMAT *samples = (AUDIO_DATA_TYPE_FORMAT*)audioData;
 
-    //Do something with the samples
     for (int i = 0; i < sampleCount; i++)
     {
         //Do something with samples[i]

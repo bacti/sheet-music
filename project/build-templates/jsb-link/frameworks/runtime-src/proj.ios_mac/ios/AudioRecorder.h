@@ -34,7 +34,7 @@ void AudioInputCallback
 + (void)PrepareRecording;
 + (void)StartRecording;
 + (void)StopRecording;
-- (void)FeedSamplesToEngine:(UInt32)audioDataBytesCapacity audioData:(void *)audioData;
++ (void)FeedSamplesToEngine:(UInt32)audioDataBytesCapacity audioData:(void *)audioData;
 
 @end
 

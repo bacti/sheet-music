@@ -27,7 +27,7 @@ cc.Class
         {
             const log = this.log.getComponent(cc.Label)
             log.string = message // + '\n' + log.string
-            // console.log(message)
+            console.log(message)
         }
 
         Promise.resolve()
