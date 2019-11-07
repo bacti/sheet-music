@@ -162,7 +162,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 426.9505240657283
+      "z": 433.8787272960038
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -253,7 +253,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -667,
       "y": 0,
       "z": 0
     },
@@ -294,10 +294,8 @@
     "_fontSize": 100,
     "_lineHeight": 200,
     "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "656e1ee9-c5c3-4cf8-a9a3-53dc83d3d92f"
-    },
-    "_isSystemFontUsed": false,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,

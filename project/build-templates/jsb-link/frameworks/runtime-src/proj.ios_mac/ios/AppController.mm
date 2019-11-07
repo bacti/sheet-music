@@ -32,6 +32,7 @@
 #import "platform/ios/CCEAGLView-ios.h"
 #include "cocos/scripting/js-bindings/jswrapper/SeApi.h"
 #import <AVFoundation/AVFoundation.h>
+#import "AudioRecorder.mm"
 
 using namespace cocos2d;
 
@@ -169,39 +170,6 @@ static RootViewController* rootViewController = nullptr;
             [self OnNativeMessage:@"cc.OnCheckAuthorization(true)"];
         break;
     }
-}
-
-NSURL* audioFileURL =
-    [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent: [NSString stringWithString: @"test.aac"]]];
-    // [NSURL fileURLWithPath:[NSString stringWithFormat: @"%@%@", [[NSBundle mainBundle] bundlePath], @"./test.aac"]];
-NSNumber* audioQuality = [NSNumber numberWithInt:AVAudioQualityHigh];
-NSNumber* audioEncoding = [NSNumber numberWithInt:kAudioFormatMPEG4AAC];
-NSNumber* audioChannels = [NSNumber numberWithInt:2];
-NSNumber* audioSampleRate = [NSNumber numberWithFloat:44100.0];
-NSDictionary* recordSettings =
-[
-    NSDictionary dictionaryWithObjectsAndKeys:
-        audioQuality, AVEncoderAudioQualityKey,
-        audioEncoding, AVFormatIDKey,
-        audioChannels, AVNumberOfChannelsKey,
-        audioSampleRate, AVSampleRateKey,
-        nil
-];
-NSError* error = nil;
-
-+(void)PrepareRecording
-{
-    AVAudioRecorder* audioRecorder =
-    [
-        [AVAudioRecorder alloc]
-        initWithURL: audioFileURL
-        settings: recordSettings
-        error: &error
-    ];
-    [audioRecorder setDelegate:self];
-    [audioRecorder prepareToRecord];
-    [audioRecorder record];
-    [self OnNativeMessage:@"cc.OnPrepareRecording(true)"];
 }
 
 @end

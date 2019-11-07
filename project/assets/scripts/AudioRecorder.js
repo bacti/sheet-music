@@ -15,7 +15,7 @@ const AudioRecorder =
         {
             case cc.sys.OS_ANDROID:
             {
-                const { className, signature, parameters } = OS_ANDROID
+                const { className, signature, parameters = [] } = OS_ANDROID
                 jsb.reflection.callStaticMethod(className, method, signature, ...parameters)
                 break
             }
@@ -54,21 +54,30 @@ const AudioRecorder =
             },
             OS_IOS:
             {
-                className: 'AppController',
+                className: 'AudioRecorder',
             },
         })
     }),
 
     StartRecording: _ => new Promise(resolve =>
     {
+        if (cc.sys.os == cc.sys.OS_WINDOWS)
+            return resolve()
+        cc.OnStartRecording = result => cc.Log(`StartRecording: ${result}`) || resolve(result)
+
         AudioRecorder.CallNative
         ({
-            className: 'com/bacti/chipiano/AudioRecorder',
-            methodName: 'StartRecording',
-            methodSignature: '()V',
-            parameters: [],
+            method: 'StartRecording',
+            OS_ANDROID:
+            {
+                className: 'com/bacti/chipiano/AudioRecorder',
+                signature: '()V',
+            },
+            OS_IOS:
+            {
+                className: 'AudioRecorder',
+            },
         })
-        cc.OnStartRecording = result => cc.Log(`StartRecording: ${result}`) || resolve(result)
     }),
 
     StopRecording: _ => new Promise(resolve =>

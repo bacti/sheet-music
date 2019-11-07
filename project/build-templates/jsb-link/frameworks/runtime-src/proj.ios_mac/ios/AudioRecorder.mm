@@ -5,6 +5,7 @@
 @implementation AudioRecorder
 
 void *refToSelf;
+RecordState recordState;
 
 void AudioInputCallback
 (
@@ -34,7 +35,7 @@ void AudioInputCallback
     return self;
 }
 
-- (void)PrepareRecording
++ (void)PrepareRecording
 {
     AudioStreamBasicDescription* format = &recordState.dataFormat;
     format->mSampleRate = 16000.0;
@@ -45,9 +46,10 @@ void AudioInputCallback
     format->mBytesPerFrame    = sizeof(Float32);
     format->mBytesPerPacket   = sizeof(Float32);
     format->mBitsPerChannel   = sizeof(Float32) * 8;
+    [AppController OnNativeMessage:@"cc.OnPrepareRecording(true)"];
 }
 
-- (void)StartRecording
++ (void)StartRecording
 {
     recordState.currentPacket = 0;
     OSStatus status = AudioQueueNewInput
@@ -73,7 +75,7 @@ void AudioInputCallback
     }
 }
 
-- (void)StopRecording
++ (void)StopRecording
 {
     recordState.recording = false;
     AudioQueueStop(recordState.queue, true);

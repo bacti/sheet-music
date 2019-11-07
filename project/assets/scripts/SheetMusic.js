@@ -113,5 +113,6 @@ cc.Class
         this.star.active = true
         this.star.runAction(cc.repeatForever(cc.sequence(beaterSequence)))
         this.partituur.runAction(cc.repeatForever(cc.sequence(playSequence)))
+        AudioRecorder.StartRecording()
     },
 })

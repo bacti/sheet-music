@@ -29,13 +29,13 @@ void AudioInputCallback
 
 @interface AudioRecorder : NSObject
 {
-    RecordState recordState;
 }
 
-- (void)PrepareRecording;
-- (void)StartRecording;
-- (void)StopRecording;
++ (void)PrepareRecording;
++ (void)StartRecording;
++ (void)StopRecording;
 - (void)FeedSamplesToEngine:(UInt32)audioDataBytesCapacity audioData:(void *)audioData;
 
 @end
+
 #endif
