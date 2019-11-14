@@ -25,4 +25,8 @@ extern float fftTestIn[256];
 
 extern float fftTestMag[256];
 
+extern double C_Major_44_1[50176];
+
+extern double C_Major_48[54613];
+
 #endif

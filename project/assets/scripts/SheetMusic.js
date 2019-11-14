@@ -1,4 +1,4 @@
-import { PARTITUUR_OFFSET, INDICATOR_OFFSET, SYMBOL_SCALE_FACTOR, FONT_WIDTH } from 'Constants'
+import { FREQUENCY, PARTITUUR_OFFSET, INDICATOR_OFFSET, SYMBOL_SCALE_FACTOR, FONT_WIDTH } from 'Constants'
 import AbcNotation from 'AbcNotation'
 import AudioRecorder from 'AudioRecorder'
 
@@ -12,6 +12,7 @@ cc.Class
         system: { default: null, type: cc.Node },
         partituur: { default: null, type: cc.Node },
         log: { default: null, type: cc.Node },
+        midi: { default: null, type: cc.Prefab },
     },
 
     onLoad()
@@ -23,12 +24,14 @@ cc.Class
         this.log.y = deviceSize.height / 2
         cc.debug.setDisplayStats(false)
 
+        cc.Info = message => console.log(message)
         cc.Log = message =>
         {
             const log = this.log.getComponent(cc.Label)
             log.string = message // + '\n' + log.string
-            console.log(message)
+            // console.log(message)
         }
+        cc.SetPitch = pitch => (this.pitch = +pitch)
 
         Promise.resolve()
         .then(evt => AudioRecorder.CheckAuthorization())
@@ -97,11 +100,21 @@ cc.Class
                 cc.moveBy(duration * beatFactor, cc.v2(-duration * FONT_WIDTH * SYMBOL_SCALE_FACTOR, 0)),
                 cc.callFunc(evt =>
                 {
-                    callbacks.forEach(callback => callback(cc.Color.YELLOW))
-                    notes.forEach(({ notation }) =>
+                    notes
+                    // .filter(note => note.id == '1')
+                    .forEach(({ notation }) =>
                     {
+                        console.log('-----------------', notation, FREQUENCY[notation])
                         const id = cc.audioEngine.play(soundFont[notation], false, 1)
-                        // this.scheduleOnce(dt => cc.audioEngine.pause(id), duration * 1000)
+                        this.schedule(dt =>
+                        {
+                            console.log(this.pitch, this.pitch / FREQUENCY[notation])
+                            if (Math.abs(this.pitch / FREQUENCY[notation] - 1) < 0.02)
+                            {
+                                callbacks.forEach(callback => callback(cc.Color.YELLOW))
+                                // this.unscheduleAllCallbacks();
+                            }
+                        }, 0.02, 25);
                     })
                 }),
             )

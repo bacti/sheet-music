@@ -1,7 +1,7 @@
 #ifndef ONSET_DETECTION_FUNCTION_TESTS
 #define ONSET_DETECTION_FUNCTION_TESTS
 
-#include "../../src/Gist.h"
+#include "../src/Gist.h"
 
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>

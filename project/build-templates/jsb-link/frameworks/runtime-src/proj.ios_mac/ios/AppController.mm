@@ -30,9 +30,10 @@
 #import "RootViewController.h"
 #import "SDKWrapper.h"
 #import "platform/ios/CCEAGLView-ios.h"
+#include "cocos/audio/include/AudioEngine.h"
 #include "cocos/scripting/js-bindings/jswrapper/SeApi.h"
 #import <AVFoundation/AVFoundation.h>
-#import "AudioRecorder.mm"
+#import "AudioReceiver.m"
 
 using namespace cocos2d;
 
@@ -40,6 +41,7 @@ using namespace cocos2d;
 
 Application* app = nullptr;
 static RootViewController* rootViewController = nullptr;
+static AudioReceiver* audioReceiver;
 @synthesize window;
 
 #pragma mark -
@@ -55,6 +57,7 @@ static RootViewController* rootViewController = nullptr;
     // cocos2d application instance
     app = new AppDelegate(bounds.size.width * scale, bounds.size.height * scale);
     app->setMultitouch(true);
+    cocos2d::AudioEngine::lazyInit();
     
     // Use RootViewController to manage CCEAGLView
     _viewController = [[RootViewController alloc]init];
@@ -170,6 +173,18 @@ static RootViewController* rootViewController = nullptr;
             [self OnNativeMessage:@"cc.OnCheckAuthorization(true)"];
         break;
     }
+}
+
++(void)PrepareRecording
+{
+    audioReceiver = [[AudioReceiver alloc] Init];
+    [self OnNativeMessage:@"cc.OnPrepareRecording(true)"];
+}
+
++(void)StartRecording
+{
+    [audioReceiver Start];
+    [self OnNativeMessage:@"cc.OnStartRecording(true)"];
 }
 
 @end

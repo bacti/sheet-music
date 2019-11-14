@@ -54,7 +54,7 @@ const AudioRecorder =
             },
             OS_IOS:
             {
-                className: 'AudioRecorder',
+                className: 'AppController',
             },
         })
     }),
@@ -75,7 +75,7 @@ const AudioRecorder =
             },
             OS_IOS:
             {
-                className: 'AudioRecorder',
+                className: 'AppController',
             },
         })
     }),

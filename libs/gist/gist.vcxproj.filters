@@ -106,6 +106,21 @@
     <ClCompile Include="src\pitch\Yin.cpp">
       <Filter>src\pitch</Filter>
     </ClCompile>
+    <ClCompile Include="src\chromagram\ChordDetector.cpp">
+      <Filter>src\chromagram</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chromagram\Chromagram.cpp">
+      <Filter>src\chromagram</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kiss_fft130\kiss_fft.c">
+      <Filter>src\kiss_fft</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Test_Notes.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Test_WavLoading.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="boost">
@@ -135,6 +150,12 @@
     <Filter Include="src\pitch">
       <UniqueIdentifier>{63fe4690-37c3-42ba-87a4-36ae941c02bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\chromagram">
+      <UniqueIdentifier>{e7687ad3-71ca-43ce-a2f0-9a9251c1eb61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\kiss_fft">
+      <UniqueIdentifier>{9f604a30-b17e-41cb-aa4a-ff2fba8c6771}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test\test-signals\Test_Signals.h">
@@ -163,6 +184,24 @@
     </ClInclude>
     <ClInclude Include="src\pitch\Yin.h">
       <Filter>src\pitch</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chromagram\ChordDetector.h">
+      <Filter>src\chromagram</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chromagram\Chromagram.h">
+      <Filter>src\chromagram</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiss_fft130\_kiss_fft_guts.h">
+      <Filter>src\kiss_fft</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiss_fft130\kiss_fft.h">
+      <Filter>src\kiss_fft</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kiss_fft130\kissfft.hh">
+      <Filter>src\kiss_fft</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioFile.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

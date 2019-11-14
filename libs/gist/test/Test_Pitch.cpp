@@ -1,7 +1,7 @@
 #ifndef PITCH_TESTS
 #define PITCH_TESTS
 
-#include "../../src/Gist.h"
+#include "../src/Gist.h"
 #include "test-signals/Test_Signals.h"
 
 #define BOOST_TEST_DYN_LINK

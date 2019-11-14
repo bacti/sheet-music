@@ -48,11 +48,14 @@
     <ClCompile Include="..\boost\test\impl\unit_test_parameters.cpp" />
     <ClCompile Include="..\boost\test\impl\xml_log_formatter.cpp" />
     <ClCompile Include="..\boost\test\impl\xml_report_formatter.cpp" />
+    <ClCompile Include="src\chromagram\ChordDetector.cpp" />
+    <ClCompile Include="src\chromagram\Chromagram.cpp" />
     <ClCompile Include="src\core\CoreFrequencyDomainFeatures.cpp" />
     <ClCompile Include="src\core\CoreTimeDomainFeatures.cpp" />
     <ClCompile Include="src\fft\AccelerateFFT.cpp" />
     <ClCompile Include="src\fft\WindowFunctions.cpp" />
     <ClCompile Include="src\Gist.cpp" />
+    <ClCompile Include="src\kiss_fft130\kiss_fft.c" />
     <ClCompile Include="src\mfcc\MFCC.cpp" />
     <ClCompile Include="src\onset-detection-functions\OnsetDetectionFunction.cpp" />
     <ClCompile Include="src\pitch\Yin.cpp" />
@@ -62,15 +65,23 @@
     <ClCompile Include="Test\Test_CoreTimeDomainFeatures.cpp" />
     <ClCompile Include="Test\Test_Gist.cpp" />
     <ClCompile Include="Test\Test_MFCC.cpp" />
+    <ClCompile Include="test\Test_Notes.cpp" />
     <ClCompile Include="Test\Test_OnsetDetectionFunction.cpp" />
     <ClCompile Include="Test\Test_Pitch.cpp" />
+    <ClCompile Include="test\Test_WavLoading.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AudioFile.h" />
+    <ClInclude Include="src\chromagram\ChordDetector.h" />
+    <ClInclude Include="src\chromagram\Chromagram.h" />
     <ClInclude Include="src\core\CoreFrequencyDomainFeatures.h" />
     <ClInclude Include="src\core\CoreTimeDomainFeatures.h" />
     <ClInclude Include="src\fft\AccelerateFFT.h" />
     <ClInclude Include="src\fft\WindowFunctions.h" />
     <ClInclude Include="src\Gist.h" />
+    <ClInclude Include="src\kiss_fft130\kissfft.hh" />
+    <ClInclude Include="src\kiss_fft130\kiss_fft.h" />
+    <ClInclude Include="src\kiss_fft130\_kiss_fft_guts.h" />
     <ClInclude Include="src\mfcc\MFCC.h" />
     <ClInclude Include="src\onset-detection-functions\OnsetDetectionFunction.h" />
     <ClInclude Include="src\pitch\Yin.h" />
@@ -81,8 +92,10 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_TEST_NO_LIB;BOOST_TEST_DYN_LINK=1</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\libs;.\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BOOST_TEST_NO_LIB;BOOST_TEST_DYN_LINK=1;USE_KISS_FFT</PreprocessorDefinitions>
+      <AdditionalUsingDirectories>
+      </AdditionalUsingDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
