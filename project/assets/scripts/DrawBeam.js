@@ -1,6 +1,6 @@
 import { SEMIQUAVER } from 'Constants'
 import DrawBeamSegment from 'DrawBeamSegment'
-export default function({ graphics, muzikSequence, up, beamInfo })
+export default function({ graphics, muzikSequence, id, up, beamInfo })
 {
     const src = beamInfo[0]
     const dest = beamInfo.slice(-1)[0]
@@ -33,8 +33,7 @@ export default function({ graphics, muzikSequence, up, beamInfo })
             graphics.fill()
         }
         const muzikItem = muzikSequence.find(item => item.timestamp == timestamp)
-        muzikItem.callbacks.push(color => DrawAction(color))
-        DrawAction(cc.Color.BLACK)
+        muzikItem.callbacks.push({ id, func: color => DrawAction(color) })
     })
 
     DrawBeamSegment

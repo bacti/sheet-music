@@ -10,7 +10,7 @@ ifeq ($(USE_ARM_MODE),1)
 LOCAL_ARM_MODE := arm
 endif
 
-LOCAL_SRC_FILES := hellojavascript/main.cpp hellojavascript/Yin.cpp \
+LOCAL_SRC_FILES := hellojavascript/main.cpp ../../../Yin.cpp \
 				   ../../../Classes/AppDelegate.cpp \
 				   ../../../Classes/jsb_module_register.cpp \
 

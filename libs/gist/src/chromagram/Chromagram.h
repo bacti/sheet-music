@@ -34,8 +34,6 @@
 #include "kiss_fft130/kiss_fft.h"
 #endif
 
-#define CHROMAGRAM_SIZE 84
-
 //=======================================================================
 /** A class for calculating a Chromagram from input audio
  * in a real-time context */

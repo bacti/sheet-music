@@ -1,4 +1,5 @@
 #import "AudioReceiver.h"
+#import "../../Chromagram.cpp"
 #import "../../Yin.cpp"
 
 void HandleInputBuffer
@@ -31,12 +32,12 @@ void HandleInputBuffer
 
 @implementation AudioReceiver
 @synthesize mySampleRate, myBufferSize, myChannels, myBitRate, myFormat, delegate;
+const UInt32 bufferSize = 0x4000;
+const int sampleRate = 44100;
+Chromagram chromagram(bufferSize / 4, sampleRate);
 
 - (AudioReceiver*)Init
 {
-    static const UInt32 maxBufferSize = 0x2000;
-    static const int sampleRate = 44100;
-
     if (self)
     {
         AVAudioSession* avSession = [AVAudioSession sharedInstance];
@@ -55,12 +56,12 @@ void HandleInputBuffer
         _recordState.mDataFormat.mFormatID = kAudioFormatLinearPCM;
         _recordState.mDataFormat.mSampleRate = 1.0 * sampleRate;
         _recordState.mDataFormat.mBitsPerChannel = sizeof(Float32) * 8;
-        _recordState.mDataFormat.mChannelsPerFrame = 2;
+        _recordState.mDataFormat.mChannelsPerFrame = 1;
         _recordState.mDataFormat.mFramesPerPacket = 1;
         _recordState.mDataFormat.mBytesPerPacket =_recordState.mDataFormat.mBytesPerFrame = (_recordState.mDataFormat.mBitsPerChannel / 8) * _recordState.mDataFormat.mChannelsPerFrame;
         _recordState.mDataFormat.mReserved = 0;
         _recordState.mDataFormat.mFormatFlags = kLinearPCMFormatFlagIsFloat | kLinearPCMFormatFlagIsPacked;
-        _recordState.bufferByteSize = maxBufferSize;
+        _recordState.bufferByteSize = bufferSize;
     }
     return self;
 }
@@ -104,6 +105,7 @@ void HandleInputBuffer
     {
         _recordState.mIsRunning = false;
         AudioQueueStop(_recordState.mQueue, true);
+        [AppController OnNativeMessage:@"cc.NoteDetected('')"];
     }
     NSLog(@"[INFO] stopped: %d", _recordState.mIsRunning);
 }
@@ -120,10 +122,29 @@ void HandleInputBuffer
 
 - (void)OnReceiveAudioData:(float*)buffer dataLength:(int)length
 {
-    Yin<float> y(44100);
     std::vector<float> audio(buffer, buffer + length);
-    float pitch = y.pitchYin(audio);
-    [AppController OnNativeMessage:[NSString stringWithFormat:@"cc.SetPitch(%4.2f)", pitch]];
+    chromagram.processAudioFrame(audio);
+    if (chromagram.isReady())
+    {
+        std::vector<float> chroma = chromagram.getChromagram();
+        NSString* notations = @"|";
+        bool detected = false;
+
+        for (int i = 0; i < CHROMAGRAM_SIZE; i++)
+        {
+            if (chroma[i] > 5)
+            {
+                detected = true;
+                // [AppController OnNativeMessage:[NSString stringWithFormat:@"cc.Info('%s')", notes[i]]];
+                // [AppController OnNativeMessage:[NSString stringWithFormat:@"cc.Info(%4.2f)", chroma[i]]];
+                notations = [notations stringByAppendingString:[NSString stringWithFormat:@"%s|", notes[i]]];
+            }
+        }
+        if (detected)
+        {
+            [AppController OnNativeMessage:[NSString stringWithFormat:@"cc.NoteDetected('%@')", notations]];
+        }
+    }
 }
 
 -(void)Assert:(int)statusCode:(char*)file:(int)line

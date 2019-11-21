@@ -19,6 +19,13 @@ export default new class
         return [1 / ~~beat.match(/\d+$/)[0], ~~pace]
     }
 
+    GetMeasure(txt, beat)
+    {
+        const pulse = this.GetParam(txt, 'M')
+        const [n, p = 1] = pulse.split('/')
+        return [pulse, +n / (+p * beat)]
+    }
+
     GetVoices()
     {
         const { key, unit, voices } = this.tune
@@ -42,15 +49,16 @@ export default new class
     {
         this.abctxt = abctxt.replace(/\/(?!\d)/g, '/2')
         const [beat, pace] = this.GetTempo(this.abctxt)
+        const [pulse, measure] = this.GetMeasure(this.abctxt, beat)
         this.tune =
         {
             index: this.GetParam(this.abctxt, 'X'),
             title: this.GetParam(this.abctxt, 'T'),
             composer: this.GetParam(this.abctxt, 'C'),
-            meter: this.GetParam(this.abctxt, 'M'),
             unit: 1 / this.GetUnitLength(this.abctxt),
-            tempo: this.GetParam(this.abctxt, 'Q'),
             key: this.GetParam(this.abctxt, 'K'),
+            measure,
+            pulse,
             beat,
             pace,
             voices: {},

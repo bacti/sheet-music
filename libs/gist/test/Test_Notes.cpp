@@ -9,6 +9,7 @@
 #include "../src/AudioFile.h"
 #include "../src/chromagram/Chromagram.h"
 #include "../src/chromagram/ChordDetector.h"
+#include "../src/chromagram/NoteFrequencies.h"
 #include "test-signals/Test_Signals.h"
 
 BOOST_AUTO_TEST_SUITE(TestNotes)
@@ -23,7 +24,6 @@ BOOST_AUTO_TEST_CASE(TestNotes)
 
     ChordDetector chordDetector;
     Chromagram c(frameSize, audioFile.getSampleRate());
-	Yin<float> y(audioFile.getSampleRate());
     std::vector<float> frame(frameSize);
     
     std::cout << "=============================================\n";
@@ -44,12 +44,19 @@ BOOST_AUTO_TEST_CASE(TestNotes)
         if (c.isReady())
         {
             std::vector<float> chroma = c.getChromagram();
-			std::cout << "\nPitch : " << y.pitchYin(frame);
-			for (int i = 36; i < 48; i++)
+            std::vector<const char*> notations;
+			std::string noots = "|";
+			for (int i = 0; i < CHROMAGRAM_SIZE; i++)
             {
-                std::cout << "\n" << chroma[i];
+                if (chroma[i] > 10)
+                {
+                    notations.push_back(notes[i]);
+					noots += notes[i];
+					noots += "|";
+                    std::cout << "\n" << notes[i];
+                }
             }
-			std::cout << "\n";
+			std::cout << "\n" << noots << "\n";
         }
     }
 }

@@ -1,5 +1,6 @@
 X:1
-T:Test Pitch
+T:TestSlur-01
+%%SYMBOL_SCALE_FACTOR 1.2
 %%score { 1 | 2 }
 L:1/4
 Q:1/4=80
@@ -9,6 +10,7 @@ K:C
 V:1 treble stafflines=5
 V:2 bass
 V:1
- CDEF |] %3
+ (c e c e | g4) | (d f d f | g4) | (e c e c | g4) | (d f d f | e d c2) |] %8
 V:2
- C,D,E,F, |] %3
+ C,4 | (G, E, C, E, | G,4) | (D, F, D, F, | G,4) | (E, C, E, C, | G,4) | (C, G, C,2) |] %8
+ 

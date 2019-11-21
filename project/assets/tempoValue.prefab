@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "midi",
+    "_name": "tempoValue",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -30,14 +30,14 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
+      "r": 127,
       "g": 255,
-      "b": 255,
+      "b": 127,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 54.58,
       "height": 0
     },
     "_anchorPoint": {
@@ -48,7 +48,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": 80,
       "z": 0
     },
     "_scale": {
@@ -70,19 +70,33 @@
     "_id": ""
   },
   {
-    "__type__": "cc.AudioSource",
+    "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "_clip": null,
-    "_volume": 1,
-    "_mute": false,
-    "_loop": false,
-    "playOnLoad": false,
-    "preload": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_useOriginalSize": false,
+    "_string": "80",
+    "_N$string": "80",
+    "_fontSize": 50,
+    "_lineHeight": 0,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Tahoma",
+    "_N$overflow": 0,
+    "_N$cacheMode": 2,
     "_id": ""
   },
   {
@@ -91,9 +105,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "3c6a0449-6ee0-4f2b-92de-911ca7c527f7"
+      "__uuid__": "f44244c9-cad1-4f9c-8174-b922d8064c5b"
     },
-    "fileId": "f3uycycTpFoonCBdTeZIrS",
+    "fileId": "b4+FpiMLNBI4Kq/GDocMgR",
     "sync": false
   }
 ]

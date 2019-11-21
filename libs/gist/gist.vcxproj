@@ -50,6 +50,7 @@
     <ClCompile Include="..\boost\test\impl\xml_report_formatter.cpp" />
     <ClCompile Include="src\chromagram\ChordDetector.cpp" />
     <ClCompile Include="src\chromagram\Chromagram.cpp" />
+    <ClCompile Include="src\chromagram\NoteFrequencies.cpp" />
     <ClCompile Include="src\core\CoreFrequencyDomainFeatures.cpp" />
     <ClCompile Include="src\core\CoreTimeDomainFeatures.cpp" />
     <ClCompile Include="src\fft\AccelerateFFT.cpp" />
@@ -74,6 +75,7 @@
     <ClInclude Include="src\AudioFile.h" />
     <ClInclude Include="src\chromagram\ChordDetector.h" />
     <ClInclude Include="src\chromagram\Chromagram.h" />
+    <ClInclude Include="src\chromagram\NoteFrequencies.h" />
     <ClInclude Include="src\core\CoreFrequencyDomainFeatures.h" />
     <ClInclude Include="src\core\CoreTimeDomainFeatures.h" />
     <ClInclude Include="src\fft\AccelerateFFT.h" />

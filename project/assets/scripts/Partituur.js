@@ -1,6 +1,6 @@
 import
 {
-    QUAVER, SEMIQUAVER,
+    CROTCHET, QUAVER, SEMIQUAVER,
     CLEFS, REST, OCTAVE, SYMBOL_SCALE_FACTOR, STAVE_PADDING, STAVE_OFFSET, BAR_OFFSET, FONT_HEIGHT, FONT_WIDTH,
     GetFlag,
     GetDynamic,
@@ -41,23 +41,27 @@ cc.Class
                 const beam = []       
                 let beamPitch = 0
                 let minPitch = 1000, maxPitch = -1000
+                beam.duration = 1
 
                 group.replace(/(![mpf>]+!)|(\()?(![mpf>]+!)?(\[[A-Ga-gz\^\+\=\_\-\.,']+\]|[\^\+\=\_\-\.]*[A-Ga-gz][,']*)([\/\d]*)(\))?/g, (_, dynamic = '', slurOn, subdynamic, notes, length, slurOff) =>
                 {
                     const offset = index * FONT_WIDTH
                     if (dynamic || subdynamic)
                     {
-                        DrawMuzik
+                        muzikSequence.callbacks.push
                         (
-                            Object.assign
+                            color => DrawMuzik
                             (
-                                { node, muzik },
-                                GetDynamic
-                                ({
-                                    dynamic: (dynamic || subdynamic).replace(/!/g, ''),
-                                    offset,
-                                    lineHeight: lineHeight - FONT_HEIGHT * 8,
-                                }),
+                                Object.assign
+                                (
+                                    { node, muzik },
+                                    GetDynamic
+                                    ({
+                                        dynamic: (dynamic || subdynamic).replace(/!/g, ''),
+                                        offset,
+                                        lineHeight: lineHeight - FONT_HEIGHT * 8,
+                                    }),
+                                )
                             )
                         )
                         if (subdynamic == undefined)
@@ -78,21 +82,24 @@ cc.Class
                     {
                         if (note == 'z')
                         {
-                            DrawMuzik
-                            ({
-                                codes: REST[duration],
-                                node,
-                                muzik,
-                                offset,
-                                lineHeight,
-                            })
-                            DrawMuzik
+                            muzikSequence.callbacks.push
                             (
-                                Object.assign
+                                color => DrawMuzik
+                                ({
+                                    codes: REST[duration],
+                                    node,
+                                    muzik,
+                                    offset,
+                                    lineHeight,
+                                }),
+                                color => DrawMuzik
                                 (
-                                    { node, muzik },
-                                    GetRestDotted(fraction, duration, index * FONT_WIDTH, lineHeight),
-                                )
+                                    Object.assign
+                                    (
+                                        { node, muzik },
+                                        GetRestDotted(fraction, duration, index * FONT_WIDTH, lineHeight),
+                                    )
+                                ),
                             )
                             return
                         }
@@ -112,6 +119,7 @@ cc.Class
 
                     chord.pitch = chordPitch / chord.length
                     beamPitch += chord.pitch
+                    beam.duration = Math.min(beam.duration, duration)
                     beam.push(chord)
 
                     // make slurs
@@ -130,7 +138,7 @@ cc.Class
                     const [ chord ] = beam
                     const { duration, offset, timestamp } = chord
                     const [ lastLineShift ] = DrawChord({ node, muzik, muzikSequence, graphics, chord, up, lineHeight, id, clef })
-                    DrawFlag({ node, muzik, muzikSequence, up, duration, offset, lineHeight, lastLineShift, timestamp })
+                    DrawFlag({ node, muzik, muzikSequence, id, up, duration, offset, lineHeight, lastLineShift, timestamp })
                 }
                 else
                 if (beam.length > 0)
@@ -186,7 +194,7 @@ cc.Class
                             return { x, y, offset, start, end, timestamp, duration }
                         }
                     )
-                    DrawBeam({ graphics, muzikSequence, up, beamInfo })
+                    beam.duration < CROTCHET && DrawBeam({ graphics, muzikSequence, id, up, beamInfo })
                 }
             })
             this.barlines.add(index - BAR_OFFSET)
@@ -199,8 +207,8 @@ cc.Class
     Draw(tune)
     {
         const graphics = this.node.getComponent(cc.Graphics)
-        const { unit, beat, pace } = tune
-        this.node.muzikSequence = Object.assign([], { unit, beat, pace })
+        const { unit, beat, pace, measure } = tune
+        this.node.muzikSequence = Object.assign([], { unit, beat, pace, measure, callbacks: [], playMuzik: {} })
         this.barlines = new Set()
 
         for (let id in tune.voices)

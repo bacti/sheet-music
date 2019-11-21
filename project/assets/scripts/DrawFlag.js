@@ -1,6 +1,6 @@
 import { GetFlag } from 'Constants'
 import DrawMuzik from 'DrawMuzik'
-export default function({ node, muzik, muzikSequence, up, duration, offset, lineHeight, lastLineShift, timestamp })
+export default function({ node, muzik, muzikSequence, id, up, duration, offset, lineHeight, lastLineShift, timestamp })
 {
     const DrawAction = color =>
     {
@@ -20,6 +20,5 @@ export default function({ node, muzik, muzikSequence, up, duration, offset, line
         )
     }
     const muzikItem = muzikSequence.find(item => item.timestamp == timestamp)
-    muzikItem.callbacks.push(color => DrawAction(color))
-    return DrawAction()
+    muzikItem.callbacks.push({ id, func: color => DrawAction(color) })
 }

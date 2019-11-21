@@ -76,7 +76,7 @@ export default function({ node, muzik, muzikSequence, graphics, chord, up, lineH
         muzikItem = { notes: [], callbacks: [], timestamp }
         muzikSequence.push(muzikItem)
     }
-    muzikItem.callbacks.push(color => DrawAction(color))
+    muzikItem.callbacks.push({ id, func: color => DrawAction(color) })
     muzikItem.notes = muzikItem.notes.concat
     (
         chord.map(({ accidental, pitch }) => GetNotation

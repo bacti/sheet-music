@@ -136,36 +136,25 @@ const Constants =
         OFFSET: 22,
         LINE_SHIFT: -150,
     },
-    FREQUENCY:
-    {
-        C1: 16, C2: 33, C3: 65, C4: 131, C5: 262, C6: 523, C7: 1047, C8: 2093, C9: 4186,
-        Db1: 17, Db2: 35, Db3: 69, Db4: 139, Db5: 278, Db6: 554, Db7: 1109, Db8: 2218, Db9: 4435,
-        D1: 18, D2: 37, D3: 73, D4: 147, D5: 294, D6: 587, D7: 1175, D8: 2349,
-        Eb1: 20, Eb2: 39, Eb3: 78, Eb4: 156, Eb5: 311, Eb6: 622, Eb7: 1245, Eb8: 2489,
-        E1: 21, E2: 41, E3: 82, E4: 165, E5: 330, E6: 659, E7: 1319, E8: 2637,
-        F1: 22, F2: 44, F3: 87, F4: 175, F5: 349, F6: 699, F7: 1397, F8: 2794,
-        Gb1: 23, Gb2: 46, Gb3: 93, Gb4: 185, Gb5: 370, Gb6: 740, Gb7: 1475, Gb8: 2960,
-        G1: 25, G2: 49, G3: 98, G4: 196, G5: 392, G6: 784, G7: 1568, G8: 3136,
-        Ab1: 26, Ab2: 52, Ab3: 104, Ab4: 208, Ab5: 415, Ab6: 831, Ab7: 1661, Ab8: 3322,
-        A1: 28, A2: 55, A3: 110, A4: 220, A5: 440, A6: 880, A7: 1760, A8: 3520, A9: 7040,
-        Bb1: 29, Bb2: 58, Bb3: 117, Bb4: 233, Bb5: 466, Bb6: 932, Bb7: 1865, Bb8: 3729, Bb9: 7459,
-        B1: 31, B2: 62, B3: 124, B4: 247, B5: 494, B6: 988, B7: 1976, B8: 3951, B9: 7902,
-    },
 
     BLANK: '\u0061',
     QUARTER_BLANK: '\u0062',
 
     SYMBOL_SCALE_FACTOR: 1,
     BAR_OFFSET: 0,
-    PARTITUUR_OFFSET: 1024,
-    INDICATOR_OFFSET: 200,
+    PARTITUUR_SAFE_OFFSET: 1334,
+    INDICATOR_OFFSET: 450,
     SYSTEM_OFFSET: 50,
     STAVE_PADDING: 600,
-    STAVE_OFFSET: [, 368, 68],
-    STEM_OFFSET: [, 382, 82],
+    STAVE_OFFSET: [, 400, 100],
+    STEM_OFFSET: [, 414, 114],
     FONT_SIZE: 150,
     FONT_WIDTH: 75,
     FONT_HEIGHT: 25,
+    MAX_ATTEMPT: 20,
+    TEMPO_MIN: 40,
+    TEMPO_MAX: 161,
+    TEMPO_HEIGHT: 75,
 
     GetNotation: ({ id, accidental, pitch, clef, duration }) =>
     {
@@ -185,7 +174,7 @@ const Constants =
 
         const octaveOffset = Math.floor(tone / 7)
         const notation = NOTATION[tone - 7 * octaveOffset] + (NOTATION.octave + octaveOffset)
-        return { id, notation, tone, duration }
+        return { id, notation, tone, duration, pitch }
     },
 
     GetNote: duration =>

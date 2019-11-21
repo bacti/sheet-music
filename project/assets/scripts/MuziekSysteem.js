@@ -9,6 +9,7 @@ cc.Class
     properties:
     {
         muzik: { default: null, type: cc.Prefab },
+        staffines: { default: null, type: cc.Node },
     },
 
     DrawMuzikSystem({ id, clef, tune })
@@ -20,18 +21,21 @@ cc.Class
             QUARTER_BLANK,
             CLEFS[clef].symbol,
             KEY[clef][tune.key],
-            METER[tune.meter],
+            METER[tune.pulse],
         ]
         DrawMuzik({ node: this.node, muzik: this.muzik, codes: symbols.join(''), offset, lineHeight })
     },
 
     Draw(tune)
     {
-        const graphics = this.node.getComponent(cc.Graphics)
+        const graphics = this.staffines.getComponent(cc.Graphics)
         for (let id in tune.voices)
         {
             this.DrawMuzikSystem({ id, clef: tune.voices[id].clef, tune })
-            Array(5).fill().map((_, index) => DrawStaffline({ graphics, id, offset: SYSTEM_OFFSET, index, length: 1500 }))
+            Array(5).fill().map((_, index) =>
+            {
+                DrawStaffline({ graphics, id, offset: SYSTEM_OFFSET, index, length: 1334 })
+            })
         }
         DrawMuzik(Object.assign({ node: this.node, muzik: this.muzik }, BRACE))
         DrawBarline({ graphics, offset: SYSTEM_OFFSET })

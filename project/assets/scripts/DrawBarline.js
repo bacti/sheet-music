@@ -1,6 +1,6 @@
-export default function({ graphics, offset, lineWidth = 4 })
+export default function({ graphics, offset, color = cc.Color.WHITE, lineWidth = 4 })
 {
-    graphics.rect(offset, 68, lineWidth, 400)
-    graphics.fillColor = cc.Color.WHITE
+    graphics.rect(offset, 100, lineWidth, 400)
+    graphics.fillColor = color
     graphics.fill()
 }

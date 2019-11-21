@@ -121,6 +121,9 @@
     <ClCompile Include="test\Test_WavLoading.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="src\chromagram\NoteFrequencies.cpp">
+      <Filter>src\chromagram</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="boost">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="src\AudioFile.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chromagram\NoteFrequencies.h">
+      <Filter>src\chromagram</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ const AudioRecorder =
 
     PrepareRecording: options => new Promise((resolve, reject) =>
     {
-        if (cc.sys.os == cc.sys.OS_WINDOWS)
+        if (cc.sys.os == cc.sys.OS_WINDOWS || cc.sys.os == cc.sys.OS_ANDROID)
             return resolve()
         cc.OnPrepareRecording = result => cc.Log(`PrepareRecording: ${result}`) || resolve(result)
 
@@ -61,7 +61,7 @@ const AudioRecorder =
 
     StartRecording: _ => new Promise(resolve =>
     {
-        if (cc.sys.os == cc.sys.OS_WINDOWS)
+        if (cc.sys.os == cc.sys.OS_WINDOWS || cc.sys.os == cc.sys.OS_ANDROID)
             return resolve()
         cc.OnStartRecording = result => cc.Log(`StartRecording: ${result}`) || resolve(result)
 
@@ -82,19 +82,28 @@ const AudioRecorder =
 
     StopRecording: _ => new Promise(resolve =>
     {
+        if (cc.sys.os == cc.sys.OS_WINDOWS)
+            return resolve()
+        cc.OnStartRecording = result => cc.Log(`StopRecording: ${result}`) || resolve(result)
+
         AudioRecorder.CallNative
         ({
-            className: 'com/bacti/chipiano/AudioRecorder',
-            methodName: 'StopRecording',
-            methodSignature: '()V',
-            parameters: [],
+            method: 'StopRecording',
+            OS_ANDROID:
+            {
+                className: 'com/bacti/chipiano/AudioRecorder',
+                signature: '()V',
+            },
+            OS_IOS:
+            {
+                className: 'AppController',
+            },
         })
-        cc.OnStopRecording = result => cc.Log(`StopRecording: ${result}`) || resolve(result)
     }),
 
     CheckAuthorization: _ => new Promise((resolve, reject) =>
     {
-        if (cc.sys.os == cc.sys.OS_WINDOWS)
+        if (cc.sys.os == cc.sys.OS_WINDOWS || cc.sys.os == cc.sys.OS_ANDROID)
             return resolve(true)
         cc.OnCheckAuthorization = result => cc.Log(`Authorization: ${result}`) || resolve(result)
 

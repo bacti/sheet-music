@@ -184,7 +184,13 @@ static AudioReceiver* audioReceiver;
 +(void)StartRecording
 {
     [audioReceiver Start];
-    [self OnNativeMessage:@"cc.OnStartRecording(true)"];
+    // [self OnNativeMessage:@"cc.OnStartRecording(true)"];
+}
+
++(void)StopRecording
+{
+    [audioReceiver Stop];
+    // [self OnNativeMessage:@"cc.OnStopRecording(true)"];
 }
 
 @end
