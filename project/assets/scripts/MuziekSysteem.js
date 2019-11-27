@@ -12,6 +12,11 @@ cc.Class
         staffines: { default: null, type: cc.Node },
     },
 
+    onLoad()
+    {
+        this.color = new cc.Color(0x7F, 0xFF, 0x7F)
+    },
+
     DrawMuzikSystem({ id, clef, tune })
     {
         const offset = SYSTEM_OFFSET
@@ -23,7 +28,7 @@ cc.Class
             KEY[clef][tune.key],
             METER[tune.pulse],
         ]
-        DrawMuzik({ node: this.node, muzik: this.muzik, codes: symbols.join(''), offset, lineHeight })
+        DrawMuzik({ node: this.node, muzik: this.muzik, codes: symbols.join(''), color: this.color, offset, lineHeight })
     },
 
     Draw(tune)
@@ -37,7 +42,7 @@ cc.Class
                 DrawStaffline({ graphics, id, offset: SYSTEM_OFFSET, index, length: 1334 })
             })
         }
-        DrawMuzik(Object.assign({ node: this.node, muzik: this.muzik }, BRACE))
+        DrawMuzik(Object.assign({ node: this.node, muzik: this.muzik, color: this.color }, BRACE))
         DrawBarline({ graphics, offset: SYSTEM_OFFSET })
     },
 })

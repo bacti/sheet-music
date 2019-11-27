@@ -9,11 +9,11 @@ cc.Class
         doraemon: { default: null, type: cc.Node },
         hellokitty: { default: null, type: cc.Node },
         metronome: { default: null, type: cc.Node },
-        playback: { default: null, type: cc.Node },
         leftHand: { default: null, type: cc.Node },
         rightHand: { default: null, type: cc.Node },
-        keyboard: { default: null, type: cc.Node },
         mobile: { default: null, type: cc.Node },
+        keyboard: { default: null, type: cc.Node },
+        playback: { default: null, type: cc.Node },
         touchLeft: { default: null, type: cc.Node },
         touchRight: { default: null, type: cc.Node },
         tempo: { default: null, type: cc.Node },
@@ -28,7 +28,6 @@ cc.Class
         scrollview.node.on('scroll-ended', evt => this.OnTempoChanged())
         this.touchLeft.on(cc.Node.EventType.TOUCH_START, event => this.PlayMuzik(2))
         this.touchRight.on(cc.Node.EventType.TOUCH_START, event => this.PlayMuzik(1))
-        this.OnModeChanged(null, 'mobile')
 
         ;[...Array(TEMPO_MAX - TEMPO_MIN)].map((evt, i) =>
         {
@@ -45,21 +44,35 @@ cc.Class
         const { muzikSequence } = this.partituur
         content.y = (muzikSequence.pace - TEMPO_MIN + 0.5) * TEMPO_HEIGHT
 
-        if (this.playing != false)
+        if (this.partituur.playing != false)
         {
-            this.menu.runAction(cc.moveBy(0.3, cc.v2(0, -120)))
-            this.partituur.pauseAllActions()
+            this.menu.runAction
+            (
+                cc.sequence
+                (
+                    cc.callFunc(evt => (this.tempo.active = true)),
+                    cc.moveBy(0.3, cc.v2(0, -120)),
+                )
+            )
             this.doraemon.pauseAllActions()
             this.hellokitty.pauseAllActions()
-            this.playing = false
+            this.partituur.pauseAllActions()
+            this.partituur.playing = false
         }
         else
         {
-            this.menu.runAction(cc.moveBy(0.3, cc.v2(0, 120)))
-            this.partituur.resumeAllActions()
+            this.menu.runAction
+            (
+                cc.sequence
+                (
+                    cc.moveBy(0.3, cc.v2(0, 120)),
+                    cc.callFunc(evt => (this.tempo.active = false)),
+                )
+            )
             this.doraemon.resumeAllActions()
             this.hellokitty.resumeAllActions()
-            this.playing = true
+            this.partituur.resumeAllActions()
+            this.partituur.playing = true
         }
     },
 
@@ -77,12 +90,7 @@ cc.Class
 
     PlayMuzik(id)
     {
-        const { muzikSequence } = this.partituur
-        if (muzikSequence.playMuzik[id])
-        {
-            muzikSequence.playMuzik[id]()
-            muzikSequence.playMuzik[id] = undefined
-        }
+        cc.MuzikTapped(id)
     },
 
     HandLeftToggle()
@@ -116,21 +124,30 @@ cc.Class
     {
         switch (mode)
         {
-            case 'keyboard':
+            case 'mobile':
             {
-                this.keyboard.active = false
-                this.mobile.active = true
-                this.touchLeft.active = true
-                this.touchRight.active = true
+                this.mobile.active = false
+                this.keyboard.active = true
+                this.touchLeft.active = false
+                this.touchRight.active = false
                 break
             }
 
-            case 'mobile':
+            case 'keyboard':
             {
-                this.keyboard.active = true
-                this.mobile.active = false
-                this.touchLeft.active = false
-                this.touchRight.active = false
+                this.keyboard.active = false
+                this.playback.active = true
+                this.partituur.playback = true
+                break
+            }
+
+            case 'playback':
+            {
+                this.mobile.active = true
+                this.playback.active = false
+                this.partituur.playback = false
+                this.touchLeft.active = true
+                this.touchRight.active = true
                 break
             }
         }

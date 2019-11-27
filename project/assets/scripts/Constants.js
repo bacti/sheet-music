@@ -151,7 +151,7 @@ const Constants =
     FONT_SIZE: 150,
     FONT_WIDTH: 75,
     FONT_HEIGHT: 25,
-    MAX_ATTEMPT: 20,
+    MAX_ATTEMPT: 5,
     TEMPO_MIN: 40,
     TEMPO_MAX: 161,
     TEMPO_HEIGHT: 75,

@@ -25,7 +25,7 @@ export default function({ graphics, slurs })
             offsetOpen,
             heightOpen,
             offsetMean,
-            heightMean + direction * (closed.offset - open.offset) * 0.2,
+            heightMean + direction * (closed.offset - open.offset) * 0.1,
             offsetClosed,
             heightClosed,
         )
@@ -34,7 +34,7 @@ export default function({ graphics, slurs })
             offsetClosed,
             heightClosed,
             offsetMean,
-            heightMean + direction * ((closed.offset - open.offset) * 0.2 + 10),
+            heightMean + direction * ((closed.offset - open.offset) * 0.1 + 10),
             offsetOpen,
             heightOpen,
         )

@@ -1,0 +1,18 @@
+X:1
+T:Rondino
+%%singleline true
+%%score { 1 | 2 }
+L:1/8
+Q:1/4=100
+M:3/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5 
+V:2 bass 
+V:1
+ !mf! (gfefde | fedecd) | (egfedc | dcBA G2) | !p! (gfefde | fedecd) | (egfede | c6) :| %8
+ !f! (dcBcAB | cBABGA) | (BdcBAG | AG^FE D2) | !p! (dcBcAB | cBABGA) | (BdcBAG | G6) | !f! (gfefde | fedecd) | (egfedc | dcBA G2) | !p! (gfefde | fedecd) | (egfede | c6) |]
+V:2
+ C,2 C2 B,2 | A,2 B,2 G,2 | C4 C,2 | G,4 F,2 | (E,4 A,2) | (D,4 G,2) | C,2 G,2 G,,2 | C,2 G,,2 C,,2 :| %8
+ G,,2 G,2 ^F,2 | E,2 ^F,2 D,2 | G,4 G,,2 | D,4 C,2 | (B,,4 E,2) | (A,,4 D,2) | G,,2 D,2 D,,2 | G,,2 G,F, E,D, | C,2 C2 B,2 | A,2 B,2 G,2 | (C4 C,2) | (G,4 F,2) |
+ (E,4 A,2) | (D,4 G,2) | C,2 G,2 G,,2 | C,2 G,,2 C,,2 |] %19

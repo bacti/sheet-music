@@ -17,7 +17,7 @@ cc.Class
 
     onLoad()
     {
-        cc.debug.setDisplayStats(false)
+        // cc.debug.setDisplayStats(false)
         cc.Info = message => console.log(message)
         cc.Log = message =>
         {
@@ -25,8 +25,21 @@ cc.Class
             log.string = message // + '\n' + log.string
             // console.log(message)
         }
-        cc.NoteDetected = notations => (this.notations = notations)
-        this.notations = ''
+        cc.NoteDetected = notations =>
+        {
+            this.doraemon.disabled != true && this.CheckSound(notations, 1)
+            this.hellokitty.disabled != true && this.CheckSound(notations, 2)
+        }
+        cc.MuzikTapped = id =>
+        {
+            const muzik = this.muzikTimer[id].find(({ timestamp }) => Math.abs(timestamp - this.muzikTimestamp) < 0.1)
+            if (muzik == undefined)
+                return
+            const { handnotes, handcallbacks, soundFont, color } = muzik
+            handcallbacks.forEach(({ func }) => func(color))
+            handnotes.forEach(({ notation }) => cc.audioEngine.play(soundFont[notation], false, 1))
+        }
+        this.muzikTimer = {}
 
         Promise.resolve()
         .then(evt => AudioRecorder.CheckAuthorization())
@@ -61,7 +74,11 @@ cc.Class
                     (
                         'bright_acoustic_piano-mp3/' + midi,
                         cc.AudioClip,
-                        (error, resource) => resolve(soundFont[midi] = resource),
+                        (error, resource) =>
+                        {
+                            cc.audioEngine.play(resource, false, 0)
+                            resolve(soundFont[midi] = resource)
+                        },
                     )
                 }))
             )
@@ -83,6 +100,7 @@ cc.Class
         [
             cc.callFunc(evt =>
             {
+                this.muzikTimestamp = introDistance * beatFactor / -(FONT_WIDTH * SYMBOL_SCALE_FACTOR)
                 this.partituur.x = introDistance + INDICATOR_OFFSET
                 this.partituur.removeAllChildren()
                 muzikSequence.callbacks.forEach(func => func(cc.Color.BLACK))
@@ -148,6 +166,7 @@ cc.Class
         let sourcey = undefined
         const noteFilter = note => hand.includes(note.id)
         beater.sequence = []
+        this.muzikTimer[hand] = []
 
         muzikSequence.forEach(({ timestamp, notes, callbacks }) =>
         {
@@ -157,52 +176,51 @@ cc.Class
                 return
 
             const duration = timestamp - laststamp
-            const notations = handnotes.map(({ notation }) => notation)
             const desty = STAVE_PADDING / -2 + Math.max(...handnotes.map(({ id, pitch }) => STAVE_OFFSET[id] + (pitch + 1) * FONT_HEIGHT / 2))
-            // console.log(notations)
-
             beater.sequence.push
             (
                 cc.spawn
                 (
                     star.Jump(duration * beatFactor, sourcey, desty),
-                    cc.sequence
-                    (
-                        cc.delayTime(duration * beatFactor - 0.1),
-                        cc.callFunc(evt =>
-                        {
-                            let attempt = 0
-                            this.schedule(dt =>
-                            {
-                                if (attempt >= MAX_ATTEMPT - 1)
-                                {
-                                    muzikSequence.playMuzik[hand] = undefined
-                                    return
-                                }
-                                if (notations.every(note => this.notations.includes(note)))
-                                {
-                                    handcallbacks.forEach(({ func }) => func(color))
-                                    attempt = MAX_ATTEMPT + 1
-                                }
-                                attempt++
-                            }, 0.02, MAX_ATTEMPT)
-                            muzikSequence.playMuzik[hand] = _ =>
-                            {
-                                if (beater.disabled)
-                                    return
-                                handcallbacks.forEach(({ func }) => func(color))
-                                this.partituur.playback != false
-                                    && handnotes.forEach(({ notation }) => cc.audioEngine.play(soundFont[notation], false, 1))
-                            }
-                        }),
-                    ),
+                    cc.callFunc(evt =>
+                    {
+                        this.scheduleOnce
+                        (
+                            dt => this.partituur.playback && beater.disabled != true
+                                && handnotes.forEach(({ notation }) => cc.audioEngine.play(soundFont[notation], false, 1)),
+                            duration * beatFactor,
+                        )
+                    }),
                 ),
             )
             beatDistance += duration * FONT_WIDTH * SYMBOL_SCALE_FACTOR
             laststamp = timestamp
             sourcey = desty
+            this.muzikTimer[hand].push({ timestamp: timestamp * beatFactor, handnotes, handcallbacks, soundFont, color })
         })
         beater.sequence.push(star.Jump((muzikDistance - beatDistance) * beatFactor / (FONT_WIDTH * SYMBOL_SCALE_FACTOR), sourcey))
         return beater
+    },
+
+    CheckSound(notations, id)
+    {
+        const muzik = this.muzikTimer[id].find(({ timestamp }) => Math.abs(timestamp - this.muzikTimestamp) < 0.5)
+        if (muzik == undefined)
+            return
+        const { handnotes, handcallbacks, color } = muzik
+        handnotes.every(({ notation }) => notations.includes(notation))
+            && handcallbacks.forEach(({ func }) => func(color))
+    },
+
+    update(deltaTime)
+    {
+        if (this.partituur.playing == false)
+            return
+        this.muzikTimestamp += deltaTime
+        this.partituur.children.forEach(node =>
+        {
+            const distance = node.x + this.partituur.x
+            node.active = distance > 0 && distance < 1284
+        })
     },
 })

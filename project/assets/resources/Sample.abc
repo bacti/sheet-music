@@ -1,16 +1,20 @@
 X:1
-T:TestSlur-01
-%%SYMBOL_SCALE_FACTOR 1.2
+T:Hanon Part I - No 1
+%%SYMBOL_SCALE_FACTOR 2
+%%singleline true
 %%score { 1 | 2 }
-L:1/4
+L:1/16
 Q:1/4=80
-M:4/4
+M:2/4
 I:linebreak $
 K:C
-V:1 treble stafflines=5
-V:2 bass
+V:1 treble stafflines=5 
+V:2 bass 
 V:1
- (c e c e | g4) | (d f d f | g4) | (e c e c | g4) | (d f d f | e d c2) |] %8
+ !mf! C,E,F,G, A,G,F,E, | D,F,G,A, B,A,G,F, | E,G,A,B, CB,A,G, | F,A,B,C DCB,A, | G,B,CD EDCB, | A,CDE FEDC | B,DEF GFED |
+ CEFG AGFE | DFGA BAGF | EGAB cBAG | FABc dcBA | GBcd edcB | Acde fedc | Bdef gfed ||
+ |]
 V:2
- C,4 | (G, E, C, E, | G,4) | (D, F, D, F, | G,4) | (E, C, E, C, | G,4) | (C, G, C,2) |] %8
- 
+ C,,E,,F,,G,, A,,G,,F,,E,, | D,,F,,G,,A,, B,,A,,G,,F,, | E,,G,,A,,B,, C,B,,A,,G,, | F,,A,,B,,C, D,C,B,,A,, | G,,B,,C,D, E,D,C,B,, | A,,C,D,E, F,E,D,C, | B,,D,E,F, G,F,E,D, |
+ C,E,F,G, A,G,F,E, | D,F,G,A, B,A,G,F, | E,G,A,B, CB,A,G, | F,A,B,C DCB,A, | G,B,CD EDCB, | A,CDE FEDC | B,DEF GFED ||
+ |]
