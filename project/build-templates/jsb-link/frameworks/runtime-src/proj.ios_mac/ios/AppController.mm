@@ -33,7 +33,7 @@
 #include "cocos/audio/include/AudioEngine.h"
 #include "cocos/scripting/js-bindings/jswrapper/SeApi.h"
 #import <AVFoundation/AVFoundation.h>
-#import "AudioReceiver.m"
+#import "AudioReceiver.mm"
 
 using namespace cocos2d;
 

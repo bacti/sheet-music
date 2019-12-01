@@ -1,4 +1,6 @@
-import { TEMPO_MIN, TEMPO_MAX, TEMPO_HEIGHT } from 'Constants'
+import { TEMPO_MIN, TEMPO_MAX, TEMPO_WIDTH, TEMPO_HEIGHT } from 'Constants'
+const TEMPO_MEAN = TEMPO_MIN + ~~((TEMPO_MAX - TEMPO_MIN) * 0.5)
+
 cc.Class
 ({
     extends: cc.Component,
@@ -24,10 +26,10 @@ cc.Class
     {
         const scrollview = this.tempo.getComponent(cc.ScrollView)
         const { content } = scrollview
-        content.height = TEMPO_HEIGHT * (TEMPO_MAX - TEMPO_MIN)
+        content.width = TEMPO_WIDTH * (TEMPO_MAX - TEMPO_MIN)
         scrollview.node.on('scroll-ended', evt => this.OnTempoChanged())
-        this.touchLeft.on(cc.Node.EventType.TOUCH_START, event => this.PlayMuzik(2))
-        this.touchRight.on(cc.Node.EventType.TOUCH_START, event => this.PlayMuzik(1))
+        this.touchLeft.on(cc.Node.EventType.TOUCH_START, event => cc.OnTouchStart({ beater: this.hellokitty, hand: 2 }))
+        this.touchRight.on(cc.Node.EventType.TOUCH_START, event => cc.OnTouchStart({ beater: this.doraemon, hand: 1 }))
 
         ;[...Array(TEMPO_MAX - TEMPO_MIN)].map((evt, i) =>
         {
@@ -38,11 +40,16 @@ cc.Class
         })
     },
 
+    MainMenu()
+    {
+        cc.director.loadScene('playlists')
+    },
+
     PlayPause()
     {
         const { content } = this.tempo.getComponent(cc.ScrollView)
         const { muzikSequence } = this.partituur
-        content.y = (muzikSequence.pace - TEMPO_MIN + 0.5) * TEMPO_HEIGHT
+        content.x = (TEMPO_MEAN - muzikSequence.pace) * TEMPO_WIDTH
 
         if (this.partituur.playing != false)
         {
@@ -86,11 +93,6 @@ cc.Class
     {
         const toggle = this.playback.getComponent(cc.Toggle)
         this.partituur.playback = !toggle.isChecked
-    },
-
-    PlayMuzik(id)
-    {
-        cc.MuzikTapped(id)
     },
 
     HandLeftToggle()
@@ -157,11 +159,9 @@ cc.Class
     {
         const { content } = this.tempo.getComponent(cc.ScrollView)
         const { muzikSequence } = this.partituur
-        const lasty = content.y
-        const dtempo = ~~(lasty / TEMPO_HEIGHT)
-        muzikSequence.pace = TEMPO_MIN + dtempo
+        muzikSequence.pace = Math.round(TEMPO_MEAN - content.x / TEMPO_WIDTH)
         content.stopAllActions()
-        content.runAction(cc.moveBy(0.5, cc.v2(0, (dtempo + 0.5) * TEMPO_HEIGHT - lasty)))
+        content.runAction(cc.moveTo(0.1, cc.v2((TEMPO_MEAN - muzikSequence.pace) * TEMPO_WIDTH, 0)))
 
         this.partituur.stopAllActions()
         this.doraemon.stopAllActions()

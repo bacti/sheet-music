@@ -4,6 +4,7 @@
 #include <limits.h>
 #include <Accelerate/Accelerate.h>
 #include <CoreFoundation/CFRunLoop.h>
+#import "PGMidi/PGMidi.h"
 
 #define kNumberBuffers 10
 
@@ -29,6 +30,11 @@ typedef struct
 @property (nonatomic) short myChannels;
 @property (nonatomic) short myBitRate;
 @property (nonatomic) NSString* myFormat;
+
+@property (nonatomic, strong) PGMidi* midi;
+@property (nonatomic, strong) NSMutableArray* sources;
+@property (nonatomic, strong) NSMutableSet* selectSources;
+@property (nonatomic, strong) NSMutableArray* savedSources;
 
 - (void)Start;
 - (void)Stop;

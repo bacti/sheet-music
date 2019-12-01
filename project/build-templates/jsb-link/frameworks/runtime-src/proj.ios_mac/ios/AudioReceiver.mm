@@ -1,4 +1,7 @@
 #import "AudioReceiver.h"
+#import "PGMidi/PGMidi.mm"
+#import "PGMidi/PGMidiFind.mm"
+#import "PGMidi/PGMidiAllSources.mm"
 #import "../../Chromagram.cpp"
 #import "../../Yin.cpp"
 
@@ -29,9 +32,13 @@ void HandleInputBuffer
     AudioQueueEnqueueBuffer(pRecordState->mQueue, inBuffer, 0, NULL);
     [pRecordState->mSelf OnReceiveAudioData:samples dataLength:(int)nsamples];
 }
+const char *ToString(BOOL b) { return b ? "yes":"no"; }
+
+@interface AudioReceiver() <PGMidiDelegate, PGMidiSourceDelegate>
+@end
 
 @implementation AudioReceiver
-@synthesize mySampleRate, myBufferSize, myChannels, myBitRate, myFormat, delegate;
+@synthesize midi, mySampleRate, myBufferSize, myChannels, myBitRate, myFormat, delegate;
 const UInt32 bufferSize = 0x4000;
 const int sampleRate = 44100;
 Chromagram chromagram(bufferSize / 4, sampleRate);
@@ -62,8 +69,74 @@ Chromagram chromagram(bufferSize / 4, sampleRate);
         _recordState.mDataFormat.mReserved = 0;
         _recordState.mDataFormat.mFormatFlags = kLinearPCMFormatFlagIsFloat | kLinearPCMFormatFlagIsPacked;
         _recordState.bufferByteSize = bufferSize;
+
+        self.selectSources = [[NSMutableSet alloc] init];
+        self.midi = [[PGMidi alloc] init];
+        self.midi.delegate = self;
+        self.midi.networkEnabled = YES;
+        [self attachToAllExistingSources];
+
+        self.sources = midi.sources;
     }
     return self;
+}
+
+- (void) attachToAllExistingSources
+{
+    for (PGMidiSource* source in midi.sources)
+    {
+        [source addDelegate:self];
+        if ([self.savedSources containsObject:source.name])
+        {
+            [self.selectSources addObject:source];
+        }
+    }
+}
+
+- (void) midi:(PGMidi*)midi sourceAdded:(PGMidiSource*)source
+{
+    [source addDelegate:self];
+    if (![self.sources containsObject:source])
+    {
+        [self.sources addObject:source];
+    }
+    if ([self.savedSources containsObject:source.name])
+    {
+        [self.selectSources addObject:source];
+    }
+    [AppController OnNativeMessage:[NSString stringWithFormat:@"cc.Log('Source added: %s')", ToString(source)]];
+}
+
+- (void) midi:(PGMidi*)midi sourceRemoved:(PGMidiSource*)source
+{
+    [self.sources removeObject:source];
+    if ([self.selectSources containsObject:source])
+    {
+        [self.selectSources removeObject:source];
+    }
+    [AppController OnNativeMessage:[NSString stringWithFormat:@"cc.Log('Source removed: %s')", ToString(source)]];
+}
+
+- (void) midi:(PGMidi*)midi destinationAdded:(PGMidiDestination*)destination
+{
+}
+
+- (void) midi:(PGMidi*)midi destinationRemoved:(PGMidiDestination*)destination
+{
+}
+
+- (void) midiSource:(PGMidiSource*)midi midiReceived:(const MIDIPacketList*)packetList
+{
+    const MIDIPacket* packet = &packetList->packet[0];
+    switch (packet->data[0])
+    {
+        case 0x80:
+            [AppController OnNativeMessage:[NSString stringWithFormat:@"cc.OnKeyReleased(%d, %d)", packet->data[1], packet->data[2]]];
+        break;
+        case 0x90:
+            [AppController OnNativeMessage:[NSString stringWithFormat:@"cc.OnKeyPressed(%d, %d)", packet->data[1], packet->data[2]]];
+        break;
+    }
 }
 
 - (void) Start

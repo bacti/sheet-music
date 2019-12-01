@@ -5,42 +5,31 @@ const Constants =
     CROTCHET: 0.25,
     QUAVER: 0.125,
     SEMIQUAVER: 0.0625,
+    LETTERS: 'C Db D Eb E F Gb G Ab A Bb B'.split(' '),
     NOTATION:
     {
         treble:
         {
             octave: 4,
             tone: 3,
-            '0'  : 'C',
-            '0.5': 'Db',
-            '1'  : 'D',
-            '1.5': 'Eb',
-            '2'  : 'E',
-            '3'   : 'F',
-            '3.5' : 'Gb',
-            '4'   : 'G',
-            '4.5' : 'Ab',
-            '5'   : 'A',
-            '5.5' : 'Bb',
-            '6'   : 'B',
         },
         bass:
         {
             octave: 3,
             tone: -2,
-            '0'  : 'C',
-            '0.5': 'Db',
-            '1'  : 'D',
-            '1.5': 'Eb',
-            '2'  : 'E',
-            '3'   : 'F',
-            '3.5' : 'Gb',
-            '4'   : 'G',
-            '4.5' : 'Ab',
-            '5'   : 'A',
-            '5.5' : 'Bb',
-            '6'   : 'B',
         },
+        '0'   : 'C',
+        '0.5' : 'Db',
+        '1'   : 'D',
+        '1.5' : 'Eb',
+        '2'   : 'E',
+        '3'   : 'F',
+        '3.5' : 'Gb',
+        '4'   : 'G',
+        '4.5' : 'Ab',
+        '5'   : 'A',
+        '5.5' : 'Bb',
+        '6'   : 'B',
     },
     CLEFS:
     {
@@ -154,12 +143,13 @@ const Constants =
     MAX_ATTEMPT: 5,
     TEMPO_MIN: 40,
     TEMPO_MAX: 161,
+    TEMPO_WIDTH: 88,
     TEMPO_HEIGHT: 75,
 
     GetNotation: ({ id, accidental, pitch, clef, duration }) =>
     {
-        const NOTATION = Constants.NOTATION[clef]
-        let tone = pitch + NOTATION.tone
+        const { NOTATION } = Constants
+        let tone = pitch + NOTATION[clef].tone
         switch (accidental)
         {
             case '-':
@@ -173,7 +163,7 @@ const Constants =
         }
 
         const octaveOffset = Math.floor(tone / 7)
-        const notation = NOTATION[tone - 7 * octaveOffset] + (NOTATION.octave + octaveOffset)
+        const notation = NOTATION[tone - 7 * octaveOffset] + (NOTATION[clef].octave + octaveOffset)
         return { id, notation, tone, duration, pitch }
     },
 

@@ -3,9 +3,6 @@ const JUMP_HEIGHT = 50
 cc.Class
 ({
     extends: cc.Component,
-    properties:
-    {
-    },
 
     onLoad()
     {
