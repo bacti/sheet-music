@@ -1,0 +1,23 @@
+X:1
+T:Một Con Vịt
+%%singleline true
+%%SYMBOL_SCALE_FACTOR 2
+%%score { 1 | 2 }
+L:1/4
+Q:1/4=80
+M:2/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+ G c | G  G/c/ | c d | e2 |
+ e c | G e/e/ | e G/G/ | G2 |
+ G G | e e/G/ | G G | e2 |
+ e c | G e/e/ | e d | c2 | c2 |]
+V:2
+ C, [E,G,] | C, [E,G,] | C, [E,G,] | C, [E,G,] |
+ C, [E,G,] | C, [E,G,] | C, [E,G,] | B,, [D,G,] |
+ B,, [D,G,] | C, [E,G,] | C, [E,G,] | C, [E,G,] |
+ C, [E,G,] | B,, [D,G,] | B,, [D,G,] | C, [E,G,] | [C,E,G,]2 |]
+ 

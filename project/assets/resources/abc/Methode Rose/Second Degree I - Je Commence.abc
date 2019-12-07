@@ -1,0 +1,22 @@
+X:1
+T:Second Degree I - Je Commence
+%%singleline true
+%%SYMBOL_SCALE_FACTOR 2
+%%BAR_OFFSET 0.3
+%%score { 1 | 2 }
+L:1/4
+Q:1/4=120
+M:4/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+ c e g c | e d g f | e c g e | d e f d | c e g c | e d g f |
+ e g e d | c e c2 | d e d f | e d e c | d e d f | e c d2 |
+ c e g c | e d g f | e g e d | c g e d | c g e d | c4 |]
+V:2
+ C,4 | G,4 | C,4 | G,4 | C,4 | G,4 |
+ C,2 G,2 | C, G, C,2 | G,4 | C,4 | G,4 | C,2 G,2 |
+ C,4 | G,4 | C,2 G,2 | C,2 G,2 | C,2 G,2 | C,4 |]
+ 

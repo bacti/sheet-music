@@ -113,11 +113,13 @@ class XmlPlay extends Component
             })
             this.iSeq += 1
         }
-        setTimeout(evt => this.Scan(), dt)
+        this.playing && setTimeout(evt => this.Scan(), dt)
     }
 
     componentDidMount()
     {
+        window.onblur = _ => (this.playing = false)
+        window.onfocus = _ => this.Scan(this.playing = true)
         window.abcElm = document.getElementById('notation')
         window.rolElm = document.getElementById('rollijn')
 
@@ -136,7 +138,8 @@ class XmlPlay extends Component
             this.iSeq = 0
             this.notesSequence = info.notesSequence
             this.sources = info.sources
-            // this.Scan()
+            this.playing = true
+            this.Scan()
         })
     }
 
@@ -154,6 +157,6 @@ const asyncFunction = _ => Promise.all
     Utils.LoadFont(ALIAS_FONT_MUZIK, 'project/assets/font/abc2svg.ttf'),
     Utils.LoadFont(ALIAS_FONT_TEXT, 'project/assets/font/emilys-candy-regular.ttf'),
     // Utils.LoadXML(ALIAS_SHEET, 'data/musicxml/Hello World.musicxml'),
-    Utils.LoadText(ALIAS_SHEET, 'project/assets/resources/Sample.abc'),
+    Utils.LoadText(ALIAS_SHEET, 'project/assets/resources/abc/Methode Rose/sample.abc'),
 ])
 export default promise(asyncFunction)(XmlPlay)

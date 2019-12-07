@@ -1,0 +1,23 @@
+X:1
+T:Chiếc Khăn Tay
+%%singleline true
+%%SYMBOL_SCALE_FACTOR 2
+%%score { 1 | 2 }
+L:1/4
+Q:1/4=80
+M:2/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+ c A | A3/ E/ | G G | G2 |
+ E C | G3/ E/ | A A | A2 |
+ A c | A c/c/ | A G | E2 |
+ G C | G G/A/ | E/D/ C | C2 | C2 |]
+V:2
+ z z | A,, [C,E,] | A,, [C,E,] | C, [E,G,] |
+ C, [E,G,] | C, [E,G,] | C, [E,G,] | F, [A,C] |
+ F, [A,C] | F, [A,C] | F, [A,C] | C, [E,G,] |
+ C, [E,G,] | B,, [D,G,] | B,, [D,G,] | C, [E,G,] | [C,E,G,]2 |]
+ 

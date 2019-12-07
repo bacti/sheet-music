@@ -7,6 +7,7 @@ export default function({ graphics, id, offset, pitch })
         DrawStaffline({ graphics, id, offset, index: -1 })
         pitch < -4 && DrawStaffline({ graphics, id, offset, index: -2 })
         pitch < -6 && DrawStaffline({ graphics, id, offset, index: -3 })
+        pitch < -8 && DrawStaffline({ graphics, id, offset, index: -4 })
     }
     else
     if (pitch > 8)
@@ -14,5 +15,6 @@ export default function({ graphics, id, offset, pitch })
         DrawStaffline({ graphics, id, offset, index: 5 })
         pitch > 10 && DrawStaffline({ graphics, id, offset, index: 6 })
         pitch > 12 && DrawStaffline({ graphics, id, offset, index: 7 })
+        pitch > 14 && DrawStaffline({ graphics, id, offset, index: 8 })
     }
 }

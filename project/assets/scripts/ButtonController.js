@@ -28,8 +28,10 @@ cc.Class
         const { content } = scrollview
         content.width = TEMPO_WIDTH * (TEMPO_MAX - TEMPO_MIN)
         scrollview.node.on('scroll-ended', evt => this.OnTempoChanged())
-        this.touchLeft.on(cc.Node.EventType.TOUCH_START, event => cc.OnTouchStart({ beater: this.hellokitty, hand: 2 }))
-        this.touchRight.on(cc.Node.EventType.TOUCH_START, event => cc.OnTouchStart({ beater: this.doraemon, hand: 1 }))
+
+        this.tempoChanged = false
+        this.touchLeft.on(cc.Node.EventType.TOUCH_START, _ => cc.OnTouchStart({ beater: this.hellokitty, hand: 2 }))
+        this.touchRight.on(cc.Node.EventType.TOUCH_START, _ => cc.OnTouchStart({ beater: this.doraemon, hand: 1 }))
 
         ;[...Array(TEMPO_MAX - TEMPO_MIN)].map((evt, i) =>
         {
@@ -48,39 +50,52 @@ cc.Class
     PlayPause()
     {
         const { content } = this.tempo.getComponent(cc.ScrollView)
-        const { muzikSequence } = this.partituur
+        const { partituur, doraemon, hellokitty, menu, tempo } = this
+        const { muzikSequence } = partituur
         content.x = (TEMPO_MEAN - muzikSequence.pace) * TEMPO_WIDTH
 
-        if (this.partituur.playing != false)
+        if (partituur.playing != false)
         {
-            this.menu.runAction
+            [partituur, doraemon, hellokitty].forEach(node => node.pauseAllActions())
+            partituur.playing = false
+            menu.runAction
             (
                 cc.sequence
                 (
-                    cc.callFunc(evt => (this.tempo.active = true)),
+                    cc.callFunc(evt => (tempo.active = true)),
                     cc.moveBy(0.3, cc.v2(0, -120)),
                 )
             )
-            this.doraemon.pauseAllActions()
-            this.hellokitty.pauseAllActions()
-            this.partituur.pauseAllActions()
-            this.partituur.playing = false
         }
         else
         {
-            this.menu.runAction
+            menu.runAction
             (
                 cc.sequence
                 (
                     cc.moveBy(0.3, cc.v2(0, 120)),
-                    cc.callFunc(evt => (this.tempo.active = false)),
+                    cc.callFunc(evt => (tempo.active = false)),
                 )
             )
-            this.doraemon.resumeAllActions()
-            this.hellokitty.resumeAllActions()
-            this.partituur.resumeAllActions()
-            this.partituur.playing = true
+
+            if (this.tempoChanged)
+            {
+                [partituur, doraemon, hellokitty].forEach(node => node.stopAllActions())
+                muzikSequence.Play()
+                this.tempoChanged = false
+            }
+            else
+            {
+                [partituur, doraemon, hellokitty].forEach(node => node.resumeAllActions())
+            }
+            partituur.playing = true
         }
+    },
+
+    Replay()
+    {
+        this.tempoChanged = true
+        this.PlayPause()
     },
 
     MetronomeToggle()
@@ -162,13 +177,6 @@ cc.Class
         muzikSequence.pace = Math.round(TEMPO_MEAN - content.x / TEMPO_WIDTH)
         content.stopAllActions()
         content.runAction(cc.moveTo(0.1, cc.v2((TEMPO_MEAN - muzikSequence.pace) * TEMPO_WIDTH, 0)))
-
-        this.partituur.stopAllActions()
-        this.doraemon.stopAllActions()
-        this.hellokitty.stopAllActions()
-        muzikSequence.Play()
-        this.partituur.pauseAllActions()
-        this.doraemon.pauseAllActions()
-        this.hellokitty.pauseAllActions()
+        this.tempoChanged = true
     },
 })

@@ -52,6 +52,21 @@ cc.Class
                 resolve()
             })
         }))
+        // .then(evt => new Promise((resolve, reject) => cc.loader.loadRes('abc/Sample', (error, asset) =>
+        // {
+        //     if (error)
+        //     {
+        //         cc.error(error.toString())
+        //         return reject()
+        //     }
+        //     AbcNotation.Parse(asset._nativeAsset).then(tune =>
+        //     {
+        //         // console.log(tune)
+        //         this.system.getComponent('MuziekSysteem').Draw(tune)
+        //         this.partituur.getComponent('Partituur').Draw(tune)
+        //         resolve()
+        //     })
+        // })))
         .then(evt =>
         {
             const { muzikSequence, muzikLength } = this.partituur

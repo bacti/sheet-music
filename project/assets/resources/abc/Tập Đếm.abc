@@ -1,0 +1,21 @@
+X:1
+T:Tập Đếm
+%%singleline true
+%%SYMBOL_SCALE_FACTOR 2
+%%score { 1 | 2 }
+L:1/4
+Q:1/4=80
+M:2/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+ G/A/G/A/ | c c | c/d/c/A/ | G G | G/A/G/A/ | d d | d/e/d/c/ | c z |
+ G/A/G/A/ | c z | c/c/c/G/ | e z |
+ e/e/A/c/ | d z | d/e/d/c/ | c2 | c2 |]
+V:2
+ C, [E,G,] | C, [E,G,] | C, [E,G,] | C, [E,G,] | C, [E,G,] | C, [E,G,] | B,, [D,G,] | C, [E,G,] |
+ C, [E,G,] | C, [E,G,] | C, [E,G,] | C, [E,G,] |
+ C, [E,G,] | C, [E,G,] | B,, [D,G,] | C, [E,G,] | [C,E,G,]2 |]
+ 

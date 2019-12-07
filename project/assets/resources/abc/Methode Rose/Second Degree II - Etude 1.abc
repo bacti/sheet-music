@@ -1,0 +1,18 @@
+X:1
+T:Second Degree II - Etude 1
+%%singleline true
+%%SYMBOL_SCALE_FACTOR 2
+%%BAR_OFFSET 0.3
+%%score { 1 | 2 }
+L:1/4
+Q:1/4=80
+M:4/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+    (c e c e | g4) | (d f d f | g4) | (e c e c | g4) | (d f d f | e d c2) |]
+V:2
+    C,4 | (G, E, C, E, | G,4) | (D, F, D, F, | G,4) | (E, C, E, C, | G,4) | (C, G, C,2) |]
+ 

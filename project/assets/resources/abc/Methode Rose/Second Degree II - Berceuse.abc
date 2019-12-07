@@ -1,0 +1,18 @@
+X:1
+T:Second Degree II - Berceuse
+%%singleline true
+%%SYMBOL_SCALE_FACTOR 2
+%%BAR_OFFSET 0.3
+%%score { 1 | 2 }
+L:1/4
+Q:1/4=100
+M:4/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+    (e2 g2 | e2 c2) | (d2 f2 | e2 c2) | (e2 g2 | e2 c2) | (d2 f2 | e d c2) |]
+V:2
+    C, G, E, G, | C, G, E, G, | F, G, D, G, | C, G, E, G, | C, G, E, G, | C, G, E, G, | F, G, D, G, | C, G, C,2 |]
+ 

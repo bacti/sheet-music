@@ -1,0 +1,22 @@
+X:1
+T:Cô Và Mẹ
+%%singleline true
+%%SYMBOL_SCALE_FACTOR 2
+%%score { 1 | 2 }
+L:1/4
+Q:1/4=80
+M:2/4
+I:linebreak $
+K:C
+V:1 treble stafflines=5
+V:2 bass
+V:1
+ !mf! c E | G A/c/ | E G | A2 |
+ A c | G A/c/ | (A/G/) E | G2 |
+ c G | A3/ G/ | c d | e2 |
+ A c | d3/ e/ | d c | c2 | c2 |]
+V:2
+ z z | C, [E,G,] | C, [E,G,] | F, [A,C] |
+ F, [A,C] | B,, [D,G,] | B,, [D,G,] | C, [E,G,] |
+ C, [E,G,] | F, [A,C] | F, [A,C] | C, [E,G,] |
+ C, [E,G,] | B,, [D,G,] | B,, [D,G,] | C, [E,G,] | [C,E,G,]2 |]
