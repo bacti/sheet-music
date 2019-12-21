@@ -1,6 +1,0 @@
-node_modules/
-library/
-local/
-temp/
-*.log
-package-lock.json
